@@ -1,0 +1,312 @@
+# Project Structure
+
+This file maintains an up-to-date list of project files and structure.
+
+## File Structure
+
+- 📁 `.vscode/`
+- 📁 `client/`
+  - 📁 `client\public/`
+    - 📄 `client\public\Dlithe_logo.png` (Unknown)
+    - 📄 `client\public\robots.txt` (Unknown)
+  - 📁 `client\src/`
+    - 📁 `client\src\components/`
+      - 📁 `client\src\components\ui/`
+        - 📄 `client\src\components\ui\accordion.tsx` (React TypeScript)
+          - *Imports:* `react`, `@radix-ui/react-accordion`, `lucide-react`, `@/lib/utils`
+        - 📄 `client\src\components\ui\alert-dialog.tsx` (React TypeScript)
+          - *Imports:* `react`, `@radix-ui/react-alert-dialog`, `@/lib/utils`, `@/components/ui/button`
+          - *Exports:* `AlertDialog`, `AlertDialogPortal`, `AlertDialogOverlay`, `AlertDialogTrigger`, `AlertDialogContent`, `AlertDialogHeader`, `AlertDialogFooter`, `AlertDialogTitle`, `AlertDialogDescription`, `AlertDialogAction`, `AlertDialogCancel`
+        - 📄 `client\src\components\ui\alert.tsx` (React TypeScript)
+          - *Imports:* `react`, `class-variance-authority`, `@/lib/utils`
+          - *Exports:* `Alert`, `AlertTitle`, `AlertDescription`
+        - 📄 `client\src\components\ui\aspect-ratio.tsx` (React TypeScript)
+          - *Imports:* `@radix-ui/react-aspect-ratio`
+          - *Exports:* `AspectRatio`
+        - 📄 `client\src\components\ui\avatar.tsx` (React TypeScript)
+          - *Imports:* `react`, `@radix-ui/react-avatar`, `@/lib/utils`
+          - *Exports:* `Avatar`, `AvatarImage`, `AvatarFallback`
+        - 📄 `client\src\components\ui\badge.tsx` (React TypeScript)
+          - *Imports:* `react`, `class-variance-authority`, `@/lib/utils`
+          - *Exports:* `Badge`, `badgeVariants`
+        - 📄 `client\src\components\ui\breadcrumb.tsx` (React TypeScript)
+          - *Imports:* `react`, `@radix-ui/react-slot`, `lucide-react`, `@/lib/utils`
+        - 📄 `client\src\components\ui\button.tsx` (React TypeScript)
+          - *Imports:* `react`, `@radix-ui/react-slot`, `class-variance-authority`, `@/lib/utils`
+          - *Exports:* `Button`, `buttonVariants`
+        - 📄 `client\src\components\ui\calender.tsx` (React TypeScript)
+          - *Imports:* `react`, `lucide-react`, `react-day-picker`, `@/lib/utils`, `@/components/ui/button`
+          - *Exports:* `Calendar`
+        - 📄 `client\src\components\ui\card.tsx` (React TypeScript)
+          - *Imports:* `react`, `@/lib/utils`
+          - *Exports:* `Card`, `CardHeader`, `CardFooter`, `CardTitle`, `CardDescription`, `CardContent`
+        - 📄 `client\src\components\ui\carousel.tsx` (React TypeScript)
+          - *Imports:* `react`, `embla-carousel-react`, `lucide-react`, `@/lib/utils`, `@/components/ui/button`
+          - *Exports:* `CarouselApi`, `Carousel`, `CarouselContent`, `CarouselItem`, `CarouselPrevious`, `CarouselNext`
+        - 📄 `client\src\components\ui\chart.tsx` (React TypeScript)
+          - *Imports:* `react`, `recharts`, `@/lib/utils`
+          - *Exports:* `ChartContainer`, `ChartTooltip`, `ChartTooltipContent`, `ChartLegend`, `ChartLegendContent`, `ChartStyle`
+        - 📄 `client\src\components\ui\checkbox.tsx` (React TypeScript)
+          - *Imports:* `react`, `@radix-ui/react-checkbox`, `lucide-react`, `@/lib/utils`
+          - *Exports:* `Checkbox`
+        - 📄 `client\src\components\ui\collapsible.tsx` (React TypeScript)
+          - *Imports:* `@radix-ui/react-collapsible`
+          - *Exports:* `Collapsible`, `CollapsibleTrigger`, `CollapsibleContent`
+        - 📄 `client\src\components\ui\command.tsx` (React TypeScript)
+          - *Imports:* `react`, `@radix-ui/react-dialog`, `cmdk`, `lucide-react`, `@/lib/utils`, `@/components/ui/dialog`
+          - *Exports:* `Command`, `CommandDialog`, `CommandInput`, `CommandList`, `CommandEmpty`, `CommandGroup`, `CommandItem`, `CommandShortcut`, `CommandSeparator`
+        - 📄 `client\src\components\ui\context-menu.tsx` (React TypeScript)
+          - *Imports:* `react`, `@radix-ui/react-context-menu`, `lucide-react`, `@/lib/utils`
+          - *Exports:* `ContextMenu`, `ContextMenuTrigger`, `ContextMenuContent`, `ContextMenuItem`, `ContextMenuCheckboxItem`, `ContextMenuRadioItem`, `ContextMenuLabel`, `ContextMenuSeparator`, `ContextMenuShortcut`, `ContextMenuGroup`, `ContextMenuPortal`, `ContextMenuSub`, `ContextMenuSubContent`, `ContextMenuSubTrigger`, `ContextMenuRadioGroup`
+        - 📄 `client\src\components\ui\dialog.tsx` (React TypeScript)
+          - *Imports:* `react`, `@radix-ui/react-dialog`, `lucide-react`, `@/lib/utils`
+          - *Exports:* `Dialog`, `DialogPortal`, `DialogOverlay`, `DialogClose`, `DialogTrigger`, `DialogContent`, `DialogHeader`, `DialogFooter`, `DialogTitle`, `DialogDescription`
+        - 📄 `client\src\components\ui\drawer.tsx` (React TypeScript)
+          - *Imports:* `react`, `vaul`, `@/lib/utils`
+          - *Exports:* `Drawer`, `DrawerPortal`, `DrawerOverlay`, `DrawerTrigger`, `DrawerClose`, `DrawerContent`, `DrawerHeader`, `DrawerFooter`, `DrawerTitle`, `DrawerDescription`
+        - 📄 `client\src\components\ui\dropdown-menu.tsx` (React TypeScript)
+          - *Imports:* `react`, `@radix-ui/react-dropdown-menu`, `lucide-react`, `@/lib/utils`
+          - *Exports:* `DropdownMenu`, `DropdownMenuTrigger`, `DropdownMenuContent`, `DropdownMenuItem`, `DropdownMenuCheckboxItem`, `DropdownMenuRadioItem`, `DropdownMenuLabel`, `DropdownMenuSeparator`, `DropdownMenuShortcut`, `DropdownMenuGroup`, `DropdownMenuPortal`, `DropdownMenuSub`, `DropdownMenuSubContent`, `DropdownMenuSubTrigger`, `DropdownMenuRadioGroup`
+        - 📄 `client\src\components\ui\form.tsx` (React TypeScript)
+          - *Imports:* `react`, `@radix-ui/react-label`, `@radix-ui/react-slot`, `react-hook-form`, `@/lib/utils`, `@/components/ui/label`
+          - *Exports:* `useFormField`, `Form`, `FormItem`, `FormLabel`, `FormControl`, `FormDescription`, `FormMessage`, `FormField`
+        - 📄 `client\src\components\ui\hover-card.tsx` (React TypeScript)
+          - *Imports:* `react`, `@radix-ui/react-hover-card`, `@/lib/utils`
+          - *Exports:* `HoverCard`, `HoverCardTrigger`, `HoverCardContent`
+        - 📄 `client\src\components\ui\input-otp.tsx` (React TypeScript)
+          - *Imports:* `react`, `input-otp`, `lucide-react`, `@/lib/utils`
+          - *Exports:* `InputOTP`, `InputOTPGroup`, `InputOTPSlot`, `InputOTPSeparator`
+        - 📄 `client\src\components\ui\input.tsx` (React TypeScript)
+          - *Imports:* `react`, `@/lib/utils`
+          - *Exports:* `Input`
+        - 📄 `client\src\components\ui\label.tsx` (React TypeScript)
+          - *Imports:* `react`, `@radix-ui/react-label`, `class-variance-authority`, `@/lib/utils`
+          - *Exports:* `Label`
+        - 📄 `client\src\components\ui\menubar.tsx` (React TypeScript)
+          - *Imports:* `react`, `@radix-ui/react-menubar`, `lucide-react`, `@/lib/utils`
+          - *Exports:* `Menubar`, `MenubarMenu`, `MenubarTrigger`, `MenubarContent`, `MenubarItem`, `MenubarSeparator`, `MenubarLabel`, `MenubarCheckboxItem`, `MenubarRadioGroup`, `MenubarRadioItem`, `MenubarPortal`, `MenubarSubContent`, `MenubarSubTrigger`, `MenubarGroup`, `MenubarSub`, `MenubarShortcut`
+        - 📄 `client\src\components\ui\navigation-menu.tsx` (React TypeScript)
+          - *Imports:* `react`, `@radix-ui/react-navigation-menu`, `class-variance-authority`, `lucide-react`, `@/lib/utils`
+          - *Exports:* `navigationMenuTriggerStyle`, `NavigationMenu`, `NavigationMenuList`, `NavigationMenuItem`, `NavigationMenuContent`, `NavigationMenuTrigger`, `NavigationMenuLink`, `NavigationMenuIndicator`, `NavigationMenuViewport`
+        - 📄 `client\src\components\ui\pagination.tsx` (React TypeScript)
+          - *Imports:* `react`, `lucide-react`, `@/lib/utils`, `@/components/ui/button`
+          - *Exports:* `Pagination`, `PaginationContent`, `PaginationEllipsis`, `PaginationItem`, `PaginationLink`, `PaginationNext`, `PaginationPrevious`
+        - 📄 `client\src\components\ui\popover.tsx` (React TypeScript)
+          - *Imports:* `react`, `@radix-ui/react-popover`, `@/lib/utils`
+          - *Exports:* `Popover`, `PopoverTrigger`, `PopoverContent`
+        - 📄 `client\src\components\ui\progress.tsx` (React TypeScript)
+          - *Imports:* `react`, `@radix-ui/react-progress`, `@/lib/utils`
+          - *Exports:* `Progress`
+        - 📄 `client\src\components\ui\radio-group.tsx` (React TypeScript)
+          - *Imports:* `react`, `@radix-ui/react-radio-group`, `lucide-react`, `@/lib/utils`
+          - *Exports:* `RadioGroup`, `RadioGroupItem`
+        - 📄 `client\src\components\ui\resizable.tsx` (React TypeScript)
+          - *Imports:* `lucide-react`, `react-resizable-panels`, `@/lib/utils`
+          - *Exports:* `ResizablePanelGroup`, `ResizablePanel`, `ResizableHandle`
+        - 📄 `client\src\components\ui\scroll-area.tsx` (React TypeScript)
+          - *Imports:* `react`, `@radix-ui/react-scroll-area`, `@/lib/utils`
+          - *Exports:* `ScrollArea`, `ScrollBar`
+        - 📄 `client\src\components\ui\select.tsx` (React TypeScript)
+          - *Imports:* `react`, `@radix-ui/react-select`, `lucide-react`, `@/lib/utils`
+          - *Exports:* `Select`, `SelectGroup`, `SelectValue`, `SelectTrigger`, `SelectContent`, `SelectLabel`, `SelectItem`, `SelectSeparator`, `SelectScrollUpButton`, `SelectScrollDownButton`
+        - 📄 `client\src\components\ui\separator.tsx` (React TypeScript)
+          - *Imports:* `react`, `@radix-ui/react-separator`, `@/lib/utils`
+          - *Exports:* `Separator`
+        - 📄 `client\src\components\ui\sheet.tsx` (React TypeScript)
+          - *Imports:* `@radix-ui/react-dialog`, `class-variance-authority`, `lucide-react`, `react`, `@/lib/utils`
+          - *Exports:* `Sheet`, `SheetClose`, `SheetContent`, `SheetDescription`, `SheetFooter`, `SheetHeader`, `SheetOverlay`, `SheetPortal`, `SheetTitle`, `SheetTrigger`
+        - 📄 `client\src\components\ui\sidebar.tsx` (React TypeScript)
+          - *Imports:* `react`, `@radix-ui/react-slot`, `class-variance-authority`, `lucide-react`, `@/hooks/use-mobile`, `@/lib/utils`, `@/components/ui/button`, `@/components/ui/input`, `@/components/ui/separator`, `@/components/ui/sheet`, `@/components/ui/skeleton`, `@/components/ui/tooltip`
+          - *Exports:* `Sidebar`, `SidebarContent`, `SidebarFooter`, `SidebarGroup`, `SidebarGroupAction`, `SidebarGroupContent`, `SidebarGroupLabel`, `SidebarHeader`, `SidebarInput`, `SidebarInset`, `SidebarMenu`, `SidebarMenuAction`, `SidebarMenuBadge`, `SidebarMenuButton`, `SidebarMenuItem`, `SidebarMenuSkeleton`, `SidebarMenuSub`, `SidebarMenuSubButton`, `SidebarMenuSubItem`, `SidebarProvider`, `SidebarRail`, `SidebarSeparator`, `SidebarTrigger`, `useSidebar`
+        - 📄 `client\src\components\ui\skeleton.tsx` (React TypeScript)
+          - *Imports:* `@/lib/utils`
+          - *Exports:* `Skeleton`
+        - 📄 `client\src\components\ui\slider.tsx` (React TypeScript)
+          - *Imports:* `react`, `@radix-ui/react-slider`, `@/lib/utils`
+          - *Exports:* `Slider`
+        - 📄 `client\src\components\ui\sonner.tsx` (React TypeScript)
+          - *Imports:* `next-themes`, `sonner`
+          - *Exports:* `Toaster`, `toast`
+        - 📄 `client\src\components\ui\switch.tsx` (React TypeScript)
+          - *Imports:* `react`, `@radix-ui/react-switch`, `@/lib/utils`
+          - *Exports:* `Switch`
+        - 📄 `client\src\components\ui\table.tsx` (React TypeScript)
+          - *Imports:* `react`, `@/lib/utils`
+          - *Exports:* `Table`, `TableHeader`, `TableBody`, `TableFooter`, `TableHead`, `TableRow`, `TableCell`, `TableCaption`
+        - 📄 `client\src\components\ui\tabs.tsx` (React TypeScript)
+          - *Imports:* `react`, `@radix-ui/react-tabs`, `@/lib/utils`
+          - *Exports:* `Tabs`, `TabsList`, `TabsTrigger`, `TabsContent`
+        - 📄 `client\src\components\ui\textarea.tsx` (React TypeScript)
+          - *Imports:* `react`, `@/lib/utils`
+          - *Exports:* `Textarea`
+        - 📄 `client\src\components\ui\toast.tsx` (React TypeScript)
+          - *Imports:* `react`, `@radix-ui/react-toast`, `class-variance-authority`, `lucide-react`, `@/lib/utils`
+          - *Exports:* `ToastProps`, `ToastActionElement`, `ToastProvider`, `ToastViewport`, `Toast`, `ToastTitle`, `ToastDescription`, `ToastClose`, `ToastAction`
+        - 📄 `client\src\components\ui\toaster.tsx` (React TypeScript)
+          - *Imports:* `@/hooks/use-toast`, `@/components/ui/toast`
+          - *Exports:* `Toaster`
+        - 📄 `client\src\components\ui\toggle-group.tsx` (React TypeScript)
+          - *Imports:* `react`, `@radix-ui/react-toggle-group`, `class-variance-authority`, `@/lib/utils`, `@/components/ui/toggle`
+          - *Exports:* `ToggleGroup`, `ToggleGroupItem`
+        - 📄 `client\src\components\ui\toggle.tsx` (React TypeScript)
+          - *Imports:* `react`, `@radix-ui/react-toggle`, `class-variance-authority`, `@/lib/utils`
+          - *Exports:* `Toggle`, `toggleVariants`
+        - 📄 `client\src\components\ui\tooltip.tsx` (React TypeScript)
+          - *Imports:* `react`, `@radix-ui/react-tooltip`, `@/lib/utils`
+          - *Exports:* `Tooltip`, `TooltipTrigger`, `TooltipContent`, `TooltipProvider`
+        - 📄 `client\src\components\ui\use-toast.tsx` (React TypeScript)
+          - *Imports:* `@/hooks/use-toast`
+          - *Exports:* `useToast`, `toast`
+      - 📁 `client\src\components\useContext/`
+        - 📄 `client\src\components\useContext\ProtectedRoute.jsx` (React)
+          - *Imports:* `react-router-dom`, `./UserContext`
+          - *Exports:* `ProtectedRoute`
+        - 📄 `client\src\components\useContext\UserContext.jsx` (React)
+          - *Imports:* `react`
+      - 📄 `client\src\components\AlertMessage.jsx` (React)
+        - *Imports:* `framer-motion`
+        - *Exports:* `AlertMessage`
+      - 📄 `client\src\components\DailyQuote.tsx` (React TypeScript)
+        - *Imports:* `react`, `lucide-react`
+      - 📄 `client\src\components\Layout.tsx` (React TypeScript)
+        - *Imports:* `react-router-dom`, `./Sidebar`
+      - 📄 `client\src\components\Login.jsx` (React)
+        - *Imports:* `react`, `react-router-dom`, `./useContext/UserContext`, `./AlertMessage`
+        - *Exports:* `LoginPage`
+      - 📄 `client\src\components\ProtectedRoute.tsx` (React TypeScript)
+        - *Imports:* `react-router-dom`
+        - *Exports:* `ProtectedRoute`
+      - 📄 `client\src\components\ResetPassword.jsx` (React)
+        - *Imports:* `react`, `./ui/button`, `./ui/input`, `framer-motion`, `react-router-dom`, `./AlertMessage`
+        - *Exports:* `ResetPassword`
+      - 📄 `client\src\components\Sidebar.tsx` (React TypeScript)
+        - *Imports:* `react`, `react-router-dom`, `lucide-react`
+        - *Routes Provided:* `GET /`, `GET /sales-marketing`, `GET /hr`, `GET /learning`, `GET /technical`, `GET #`, `GET #`, `GET #`, `GET #`, `GET #`, `GET #`
+      - 📄 `client\src\components\ToolCard.tsx` (React TypeScript)
+        - *Imports:* `lucide-react`
+      - 📄 `client\src\components\UpcomingBirthdays.tsx` (React TypeScript)
+        - *Imports:* `react`, `lucide-react`
+        - *Routes Consumed:* `http://localhost:5000/api/employees`
+    - 📁 `client\src\contexts/`
+      - 📄 `client\src\contexts\AuthContext.tsx` (React TypeScript)
+        - *Imports:* `react`
+        - *Routes Consumed:* `http://localhost:5000/api/auth/login`
+    - 📁 `client\src\hooks/`
+      - 📄 `client\src\hooks\use-mobile.tsx` (React TypeScript)
+        - *Imports:* `react`
+        - *Exports:* `useIsMobile`
+      - 📄 `client\src\hooks\use-toast.tsx` (React TypeScript)
+        - *Imports:* `react`, `@/components/ui/toast`
+        - *Exports:* `useToast`, `toast`
+    - 📁 `client\src\lib/`
+      - 📄 `client\src\lib\utils.ts` (TypeScript)
+        - *Imports:* `clsx`, `tailwind-merge`
+        - *Exports:* `cn`
+    - 📁 `client\src\pages/`
+      - 📄 `client\src\pages\Dashboard.tsx` (React TypeScript)
+        - *Imports:* `../components/DailyQuote`, `../components/ToolCard`, `../components/UpcomingBirthdays`, `lucide-react`
+        - *Routes Provided:* `GET /Dashboard`
+      - 📄 `client\src\pages\ForgotPasswordPage.tsx` (React TypeScript)
+        - *Imports:* `react`, `@/components/ui/button`, `@/components/ui/input`, `@/components/ui/card`, `react-router-dom`
+        - *Exports:* `ForgotPasswordPage`
+        - *Routes Provided:* `GET /ForgotPasswordPage`
+        - *Routes Consumed:* `http://localhost:5000/api/auth/forgot-password`
+      - 📄 `client\src\pages\HumanResources.tsx` (React TypeScript)
+        - *Imports:* `../components/ToolCard`, `lucide-react`
+        - *Routes Provided:* `GET /HumanResources`
+      - 📄 `client\src\pages\Index.tsx` (React TypeScript)
+        - *Exports:* `* from ./Dashboard`
+        - *Routes Provided:* `GET /Index`
+      - 📄 `client\src\pages\LearningDevelopment.tsx` (React TypeScript)
+        - *Imports:* `../components/ToolCard`, `lucide-react`
+        - *Routes Provided:* `GET /LearningDevelopment`
+      - 📄 `client\src\pages\LoginPage.tsx` (React TypeScript)
+        - *Imports:* `react`, `react-router-dom`, `framer-motion`, `@/components/ui/button`, `@/components/ui/input`, `@/components/ui/card`, `@/components/ui/label`, `@/components/ui/alert`, `lucide-react`, `@/contexts/AuthContext`, `@/hooks/use-toast`
+        - *Exports:* `LoginPage`
+        - *Routes Provided:* `GET /LoginPage`
+      - 📄 `client\src\pages\NotFound.tsx` (React TypeScript)
+        - *Imports:* `react-router-dom`, `react`
+        - *Routes Provided:* `GET /NotFound`
+      - 📄 `client\src\pages\ResetPasswordPage.tsx` (React TypeScript)
+        - *Imports:* `react-router-dom`, `react`, `@/components/ui/button`, `@/components/ui/input`, `@/components/ui/card`
+        - *Exports:* `ResetPasswordPage`
+        - *Routes Provided:* `GET /ResetPasswordPage`
+        - *Routes Consumed:* `http://localhost:5000/api/auth/reset-password`
+      - 📄 `client\src\pages\SalesMarketing.tsx` (React TypeScript)
+        - *Imports:* `../components/ToolCard`, `lucide-react`
+        - *Routes Provided:* `GET /SalesMarketing`
+      - 📄 `client\src\pages\Technical.tsx` (React TypeScript)
+        - *Imports:* `../components/ToolCard`, `lucide-react`
+        - *Routes Provided:* `GET /Technical`
+      - 📄 `client\src\pages\VerifyCodePage.tsx` (React TypeScript)
+        - *Imports:* `react-router-dom`, `react`, `@/components/ui/button`, `@/components/ui/input`, `@/components/ui/card`
+        - *Exports:* `VerifyCodePage`
+        - *Routes Provided:* `GET /VerifyCodePage`
+        - *Routes Consumed:* `http://localhost:5000/api/auth/verify-code`
+    - 📄 `client\src\App.css` (CSS)
+    - 📄 `client\src\App.test.js` (JavaScript)
+      - *Imports:* `@testing-library/react`, `./App`
+    - 📄 `client\src\App.tsx` (React TypeScript)
+      - *Imports:* `./components/ui/toaster`, `./components/ui/sonner`, `./components/ui/tooltip`, `@tanstack/react-query`, `react-router-dom`, `./components/Layout`, `./components/ProtectedRoute`, `./pages/Dashboard`, `./pages/SalesMarketing`, `./pages/HumanResources`, `./pages/LearningDevelopment`, `./pages/Technical`, `./pages/LoginPage`, `./pages/NotFound`, `./pages/ForgotPasswordPage`, `./pages/VerifyCodePage`, `./pages/ResetPasswordPage`
+      - *Routes Provided:* `GET /login`, `GET /forgot-password`, `GET /verify-code`, `GET /reset-password`, `GET /`, `GET sales-marketing`, `GET hr`, `GET learning`, `GET technical`, `GET *`
+    - 📄 `client\src\index.css` (CSS)
+    - 📄 `client\src\index.tsx` (React TypeScript)
+      - *Imports:* `react`, `react-dom/client`, `./App`, `./index.css`, `./contexts/AuthContext`
+    - 📄 `client\src\main.tsx` (React TypeScript)
+      - *Imports:* `react`, `react-dom/client`, `./App`, `./contexts/AuthContext`, `./index.css`
+    - 📄 `client\src\reportWebVitals.js` (JavaScript)
+    - 📄 `client\src\setupTests.js` (JavaScript)
+      - *Imports:* `@testing-library/jest-dom`
+  - 📄 `client\.gitignore` (Unknown)
+  - 📄 `client\components.json` (JSON)
+  - 📄 `client\eslint.config.js` (JavaScript)
+    - *Imports:* `@eslint/js`, `globals`, `eslint-plugin-react-hooks`, `eslint-plugin-react-refresh`, `typescript-eslint`
+  - 📄 `client\index.html` (HTML)
+  - 📄 `client\package-lock.json` (JSON)
+  - 📄 `client\package.json` (JSON)
+  - 📄 `client\postcss.config.js` (JavaScript)
+  - 📄 `client\README.md` (Markdown)
+  - 📄 `client\tailwind.config.ts` (TypeScript)
+    - *Imports:* `tailwindcss`
+  - 📄 `client\tsconfig.app.json` (JSON)
+  - 📄 `client\tsconfig.json` (JSON)
+  - 📄 `client\tsconfig.node.json` (JSON)
+  - 📄 `client\vite.config.ts` (TypeScript)
+    - *Imports:* `vite`, `@vitejs/plugin-react-swc`, `path`, `lovable-tagger`
+- 📁 `server/`
+  - 📁 `server\config/`
+    - 📄 `server\config\db.js` (JavaScript)
+      - *Imports:* `mongoose`
+  - 📁 `server\controllers/`
+    - 📄 `server\controllers\authController.js` (JavaScript)
+      - *Imports:* `dotenv`, `jsonwebtoken`, `nodemailer`, `bcryptjs`, `../models/Employee.js`
+  - 📁 `server\middleware/`
+    - 📄 `server\middleware\authMiddleware.js` (JavaScript)
+      - *Imports:* `jsonwebtoken`, `../models/Employee.js`
+  - 📁 `server\models/`
+    - 📄 `server\models\Employee.js` (JavaScript)
+      - *Imports:* `mongoose`, `bcryptjs`
+  - 📁 `server\routes/`
+    - 📄 `server\routes\authRoutes.js` (JavaScript)
+      - *Imports:* `express`, `../controllers/authController.js`
+      - *Routes Provided:* `POST /register`, `POST /login`, `POST /forgot-password`, `POST /verify-code`, `POST /reset-password`, `GET /users`
+    - 📄 `server\routes\employeeRoutes.js` (JavaScript)
+      - *Imports:* `express`, `../models/Employee.js`, `../middleware/authMiddleware.js`
+      - *Routes Provided:* `GET /`, `GET /:id`, `POST /`, `PUT /:id`, `DELETE /:id`
+  - 📄 `server\.env` (Unknown)
+  - 📄 `server\app.js` (JavaScript)
+    - *Imports:* `express`, `cors`, `./routes/employeeRoutes.js`
+  - 📄 `server\package-lock.json` (JSON)
+  - 📄 `server\package.json` (JSON)
+  - 📄 `server\seed.js` (JavaScript)
+    - *Imports:* `mongoose`, `dotenv`, `bcryptjs`, `./models/Employee.js`
+  - 📄 `server\server.js` (JavaScript)
+    - *Imports:* `express`, `dotenv`, `mongoose`, `cors`, `./routes/authRoutes.js`, `./routes/employeeRoutes.js`
+  - 📄 `server\testenv.js` (JavaScript)
+    - *Imports:* `mongoose`, `dotenv`, `./models/Employee.js`
+  - 📄 `server\testMail.js` (JavaScript)
+    - *Imports:* `nodemailer`
+- 📄 `README.md` (Markdown)
+
+---
+Last updated: 2026-05-12T06:32:32.597Z
