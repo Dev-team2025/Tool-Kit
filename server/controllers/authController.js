@@ -4,7 +4,8 @@ dotenv.config();
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
 import bcrypt from "bcryptjs";
-import Employee from "../models/Employee.js";
+import supabase from "../config/supabaseClient.js";
+import { mapEmployeeFromDB, mapEmployeesFromDB } from "../utils/employeeMapper.js";
 
 // ================================
 // Generate JWT
@@ -36,22 +37,45 @@ export const register = async (req, res) => {
   try {
     const { name, employeeId, email, password, department } = req.body;
 
-    const normalizedEmail = email.toLowerCase();
+    const normalizedEmail = email?.toLowerCase();
 
-    const existing = await Employee.findOne({ email: normalizedEmail });
-    if (existing) return res.status(400).json({ message: "Employee already exists" });
+    const { data: existing, error: existingError } = await supabase
+      .from("employees")
+      .select("id")
+      .eq("email", normalizedEmail)
+      .maybeSingle();
 
-    const employee = await Employee.create({
-      name,
-      employeeId,
-      email: normalizedEmail,
-      password, // Model pre-save hook will hash
-      department,
-    });
+    if (existingError) {
+      return res.status(500).json({ message: existingError.message });
+    }
+
+    if (existing) {
+      return res.status(400).json({ message: "Employee already exists" });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const { data: employee, error: insertError } = await supabase
+      .from("employees")
+      .insert([
+        {
+          name,
+          employee_id: employeeId,
+          email: normalizedEmail,
+          password: hashedPassword,
+          department,
+        },
+      ])
+      .select("*")
+      .single();
+
+    if (insertError) {
+      return res.status(500).json({ message: insertError.message });
+    }
 
     res.status(201).json({
-      token: generateToken(employee._id),
-      user: employee,
+      token: generateToken(employee.id),
+      user: mapEmployeeFromDB(employee),
     });
 
   } catch (err) {
@@ -66,26 +90,34 @@ export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const normalizedEmail = email.toLowerCase();
+    const normalizedEmail = email?.toLowerCase();
 
-    const employee = await Employee.findOne({ email: normalizedEmail });
+    const { data: employee, error: employeeError } = await supabase
+      .from("employees")
+      .select("*")
+      .eq("email", normalizedEmail)
+      .maybeSingle();
+
+    if (employeeError) {
+      return res.status(500).json({ message: employeeError.message });
+    }
 
     if (!employee) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
-    const isMatch = await employee.matchPassword(password);
+    const isMatch = await bcrypt.compare(password, employee.password ?? "");
     if (!isMatch) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
     res.json({
-      token: generateToken(employee._id),
+      token: generateToken(employee.id),
       user: {
-        id: employee._id,
+        id: employee.id,
         name: employee.name,
         email: employee.email,
-        employeeId: employee.employeeId,
+        employeeId: employee.employee_id,
         department: employee.department,
         birthday: employee.birthday,
         avatar: employee.avatar,
@@ -103,10 +135,17 @@ export const login = async (req, res) => {
 // ================================
 export const getUsers = async (req, res) => {
   try {
-    const employees = await Employee.find().select(
-      "-password -resetCode -resetCodeExpiry"
-    );
-    res.json(employees);
+    const { data: employees, error } = await supabase
+      .from("employees")
+      .select(
+        "id, employee_id, name, email, department, birthday, avatar, role, created_at, updated_at"
+      );
+
+    if (error) {
+      return res.status(500).json({ message: error.message });
+    }
+
+    res.json(mapEmployeesFromDB(employees));
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -122,15 +161,33 @@ export const forgotPassword = async (req, res) => {
     if (!email) return res.status(400).json({ message: "Email required" });
 
     const normalizedEmail = email.toLowerCase().trim();
-    const employee = await Employee.findOne({ email: normalizedEmail });
+    const { data: employee, error: employeeError } = await supabase
+      .from("employees")
+      .select("id, email")
+      .eq("email", normalizedEmail)
+      .maybeSingle();
+
+    if (employeeError) {
+      return res.status(500).json({ message: employeeError.message });
+    }
 
     if (!employee) return res.status(404).json({ message: "Email not found" });
 
     const resetCode = Math.floor(100000 + Math.random() * 900000).toString();
 
-    employee.resetCode = resetCode;
-    employee.resetCodeExpiry = Date.now() + 10 * 60 * 1000;
-    await employee.save();
+    const resetCodeExpiry = new Date(Date.now() + 10 * 60 * 1000).toISOString();
+
+    const { error: updateError } = await supabase
+      .from("employees")
+      .update({
+        reset_code: resetCode,
+        reset_code_expiry: resetCodeExpiry,
+      })
+      .eq("email", normalizedEmail);
+
+    if (updateError) {
+      return res.status(500).json({ message: updateError.message });
+    }
 
     try {
       await transporter.sendMail({
@@ -160,11 +217,22 @@ export const verifyCode = async (req, res) => {
   try {
     const { email, code } = req.body;
 
-    const employee = await Employee.findOne({ email: email.toLowerCase() });
+    const { data: employee, error: employeeError } = await supabase
+      .from("employees")
+      .select("reset_code, reset_code_expiry")
+      .eq("email", email.toLowerCase())
+      .maybeSingle();
+
+    if (employeeError) {
+      return res.status(500).json({ message: employeeError.message });
+    }
 
     if (!employee) return res.status(404).json({ message: "Employee not found" });
 
-    if (employee.resetCode !== code || Date.now() > employee.resetCodeExpiry) {
+    const expiryMs = employee.reset_code_expiry
+      ? new Date(employee.reset_code_expiry).getTime()
+      : 0;
+    if (employee.reset_code !== code || Date.now() > expiryMs) {
       return res.status(400).json({ message: "Invalid or expired code" });
     }
 
@@ -182,19 +250,41 @@ export const resetPassword = async (req, res) => {
   try {
     const { email, code, newPassword } = req.body;
 
-    const employee = await Employee.findOne({ email: email.toLowerCase() });
+    const normalizedEmail = email.toLowerCase();
+
+    const { data: employee, error: employeeError } = await supabase
+      .from("employees")
+      .select("reset_code, reset_code_expiry")
+      .eq("email", normalizedEmail)
+      .maybeSingle();
+
+    if (employeeError) {
+      return res.status(500).json({ message: employeeError.message });
+    }
 
     if (!employee) return res.status(404).json({ message: "Employee not found" });
 
-    if (employee.resetCode !== code || Date.now() > employee.resetCodeExpiry) {
+    const expiryMs = employee.reset_code_expiry
+      ? new Date(employee.reset_code_expiry).getTime()
+      : 0;
+    if (employee.reset_code !== code || Date.now() > expiryMs) {
       return res.status(400).json({ message: "Invalid or expired code" });
     }
 
-    employee.password = newPassword;  // 🔥 do NOT hash here — model hook will hash correctly
-    employee.resetCode = null;
-    employee.resetCodeExpiry = null;
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-    await employee.save();
+    const { error: updateError } = await supabase
+      .from("employees")
+      .update({
+        password: hashedPassword,
+        reset_code: null,
+        reset_code_expiry: null,
+      })
+      .eq("email", normalizedEmail);
+
+    if (updateError) {
+      return res.status(500).json({ message: updateError.message });
+    }
 
     res.json({ success: true, message: "Password reset successful" });
 

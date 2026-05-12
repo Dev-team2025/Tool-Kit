@@ -1,16 +1,6 @@
-import mongoose from "mongoose";
-import dotenv from "dotenv";
 import bcrypt from "bcryptjs";
-import Employee from "./models/Employee.js";
-
-// Load environment variables
-dotenv.config();
-
-console.log("🧩 MONGO_URI from .env:", process.env.MONGO_URI ? "Loaded ✅" : "❌ Not Found");
-if (!process.env.MONGO_URI) {
-  console.error("❌ Missing MONGO_URI in .env");
-  process.exit(1);
-}
+import "dotenv/config";
+import supabase from "./config/supabaseClient.js";
 
 // Employee raw data
 const employees = [
@@ -42,9 +32,14 @@ async function prepareEmployees() {
       const hashedPassword = await bcrypt.hash(emp.password, salt);
 
       return {
-        ...emp,
+        name: emp.name,
+        email: emp.email.toLowerCase(),
+        employee_id: emp.employeeId,
         password: hashedPassword,
+        birthday: emp.birthday,
+        department: emp.department,
         avatar,
+        role: "employee",
       };
     })
   );
@@ -52,17 +47,19 @@ async function prepareEmployees() {
 
 async function seedDB() {
   try {
-    console.log("🔌 Connecting to MongoDB...");
-    await mongoose.connect(process.env.MONGO_URI);
-    console.log("✅ Connected!");
-
     const preparedEmployees = await prepareEmployees();
 
-    await Employee.deleteMany({});
-    await Employee.insertMany(preparedEmployees);
+    const { error } = await supabase
+      .from("employees")
+      .upsert(preparedEmployees, { onConflict: "email" });
 
-    console.log("🎉 Database seeded successfully!");
-    console.log("➡️ Default password for all users: password (but hashed in DB)");
+    if (error) {
+      console.error("❌ Seed error:", error);
+      process.exit(1);
+    }
+
+    console.log("🎉 Supabase seeded successfully!");
+    console.log("➡️ Default password for all users: password (stored hashed)");
     process.exit(0);
   } catch (error) {
     console.error("❌ Seeding error:", error);
