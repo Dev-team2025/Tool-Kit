@@ -16,6 +16,7 @@ const employees = [
   { name: "Sahana B Ilager", email: "sahana@dlithe.com", employeeId: "EMP010", password: "password", birthday: "01-29", department: "Embedded Engineer" },
   { name: "Sushma I Sangolli", email: "sushma@dlithe.com", employeeId: "EMP011", password: "password", birthday: "07-15", department: "Software Engineer" },
   { name: "Shreya V", email: "shreya@dlithe.com", employeeId: "EMP012", password: "password", birthday: "12-14", department: "Training Assistant Manager - Global" },
+    { name: "Abhishekh wali", email: "waliabhishek120@gmail.com", employeeId: "EMP013", password: "password", birthday: "07-30", department: "Software Engineer" },
 ];
 
 // Generate avatar + hash password
