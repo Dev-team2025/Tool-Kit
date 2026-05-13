@@ -5,6 +5,7 @@ This file maintains an up-to-date list of project files and structure.
 ## File Structure
 
 - 📁 `.vscode/`
+  - 📄 `.vscode\project-structure.md` (Markdown)
 - 📁 `client/`
   - 📁 `client\public/`
     - 📄 `client\public\Dlithe_logo.png` (Unknown)
@@ -275,38 +276,48 @@ This file maintains an up-to-date list of project files and structure.
     - *Imports:* `vite`, `@vitejs/plugin-react-swc`, `path`, `lovable-tagger`
 - 📁 `server/`
   - 📁 `server\config/`
-    - 📄 `server\config\db.js` (JavaScript)
-      - *Imports:* `mongoose`
+    - 📄 `server\config\supabaseClient.js` (JavaScript)
+      - *Imports:* `dotenv`, `@supabase/supabase-js`
   - 📁 `server\controllers/`
     - 📄 `server\controllers\authController.js` (JavaScript)
-      - *Imports:* `dotenv`, `jsonwebtoken`, `nodemailer`, `bcryptjs`, `../models/Employee.js`
+      - *Imports:* `dotenv`, `jsonwebtoken`, `nodemailer`, `bcryptjs`, `../config/supabaseClient.js`, `../utils/employeeMapper.js`
+    - 📄 `server\controllers\employeeController.js` (JavaScript)
+      - *Imports:* `bcryptjs`, `../config/supabaseClient.js`, `../utils/employeeMapper.js`, `../utils/employeeInputMapper.js`
   - 📁 `server\middleware/`
     - 📄 `server\middleware\authMiddleware.js` (JavaScript)
-      - *Imports:* `jsonwebtoken`, `../models/Employee.js`
+      - *Imports:* `jsonwebtoken`, `../config/supabaseClient.js`, `../utils/employeeMapper.js`
   - 📁 `server\models/`
-    - 📄 `server\models\Employee.js` (JavaScript)
-      - *Imports:* `mongoose`, `bcryptjs`
   - 📁 `server\routes/`
     - 📄 `server\routes\authRoutes.js` (JavaScript)
       - *Imports:* `express`, `../controllers/authController.js`
       - *Routes Provided:* `POST /register`, `POST /login`, `POST /forgot-password`, `POST /verify-code`, `POST /reset-password`, `GET /users`
     - 📄 `server\routes\employeeRoutes.js` (JavaScript)
-      - *Imports:* `express`, `../models/Employee.js`, `../middleware/authMiddleware.js`
+      - *Imports:* `express`, `../middleware/authMiddleware.js`, `../controllers/employeeController.js`
       - *Routes Provided:* `GET /`, `GET /:id`, `POST /`, `PUT /:id`, `DELETE /:id`
+  - 📁 `server\utils/`
+    - 📄 `server\utils\employeeInputMapper.js` (JavaScript)
+      - *Exports:* `mapEmployeeToDB`
+    - 📄 `server\utils\employeeMapper.js` (JavaScript)
+      - *Exports:* `mapEmployeeFromDB`, `mapEmployeesFromDB`
   - 📄 `server\.env` (Unknown)
+  - 📄 `server\.env.example` (Unknown)
   - 📄 `server\app.js` (JavaScript)
     - *Imports:* `express`, `cors`, `./routes/employeeRoutes.js`
   - 📄 `server\package-lock.json` (JSON)
   - 📄 `server\package.json` (JSON)
   - 📄 `server\seed.js` (JavaScript)
-    - *Imports:* `mongoose`, `dotenv`, `bcryptjs`, `./models/Employee.js`
+    - *Imports:* `bcryptjs`, `dotenv/config`, `./config/supabaseClient.js`
   - 📄 `server\server.js` (JavaScript)
-    - *Imports:* `express`, `dotenv`, `mongoose`, `cors`, `./routes/authRoutes.js`, `./routes/employeeRoutes.js`
+    - *Imports:* `express`, `cors`, `dotenv/config`, `./routes/authRoutes.js`, `./routes/employeeRoutes.js`
+  - 📄 `server\supabase_schema.sql` (Unknown)
   - 📄 `server\testenv.js` (JavaScript)
-    - *Imports:* `mongoose`, `dotenv`, `./models/Employee.js`
+    - *Imports:* `dotenv/config`, `./config/supabaseClient.js`
   - 📄 `server\testMail.js` (JavaScript)
     - *Imports:* `nodemailer`
+  - 📄 `server\testSupabaseConnection.js` (JavaScript)
+    - *Imports:* `dotenv`, `@supabase/supabase-js`
+- 📄 `.gitignore` (Unknown)
 - 📄 `README.md` (Markdown)
 
 ---
-Last updated: 2026-05-12T06:32:32.597Z
+Last updated: 2026-05-13T09:09:41.266Z

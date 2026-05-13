@@ -22,6 +22,7 @@ const DailyQuote = () => {
   const [weather, setWeather] = useState<WeatherData>({ temp: 'Loading...', condition: '' });
   const [location, setLocation] = useState<LocationData>({ city: 'Loading...', country: '' });
   const [isLoading, setIsLoading] = useState(true);
+  const apiNinjasKey = import.meta.env.VITE_API_NINJAS_KEY;
 
   useEffect(() => {
     const timeInterval = setInterval(() => {
@@ -108,9 +109,19 @@ const DailyQuote = () => {
       if (savedQuote) {
         setCurrentQuote(JSON.parse(savedQuote));
       } else {
-        const response = await fetch(`https://api.api-ninjas.com/v1/quotes?category=${category}`, { headers: { "X-Api-Key": "H7sebyWIpcvhls+7hY0Yrg==alJetwJ48ACl3hkt" }});
+        if (!apiNinjasKey) {
+          throw new Error("Missing API Ninjas key");
+        }
 
-        if (!response.ok) throw new Error("API request failed");
+        const response = await fetch(
+          `https://api.api-ninjas.com/v1/quotes?category=${category}`,
+          { headers: { "X-Api-Key": apiNinjasKey } }
+        );
+
+        if (!response.ok) {
+          const errorBody = await response.text();
+          throw new Error(`API request failed (${response.status}): ${errorBody}`);
+        }
 
         const data = await response.json();
         const quoteData = data[0]; // API returns an array
@@ -157,59 +168,51 @@ const DailyQuote = () => {
     date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
 
   return (
-    <div className="bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-500 rounded-xl p-8 text-white shadow-lg mb-8">
-      {/* Changed justify-between to no justify, and items-start */}
-      <div className="flex items-start">
-        {/* Left: Quote Section */}
-        <div className="flex items-start space-x-4 w-3/4">
-          <Quote className="w-7 h-7 flex-shrink-0 opacity-80 mt-1" />
+    <div className="rounded-3xl border border-teal-200/60 bg-gradient-to-br from-teal-600 via-teal-500 to-emerald-500 p-8 text-white shadow-xl">
+      <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
+        <div className="flex items-start gap-4 lg:w-2/3">
+          <Quote className="w-7 h-7 flex-shrink-0 opacity-90 mt-1" />
           <div>
             <h3 className="text-lg font-semibold mb-2">Quote of the Day</h3>
             <blockquote className="text-2xl font-medium mb-2 leading-relaxed">
               "{currentQuote.text}"
             </blockquote>
-            <cite className="text-blue-100 font-medium">— {currentQuote.author}</cite>
+            <cite className="text-white/80 font-medium">— {currentQuote.author}</cite>
           </div>
         </div>
 
-        {/* Right: Info Section - Changed items-end to items-start, text-right to text-left */}
-        <div className="flex flex-col items-start space-y-4 w-1/4 text-left ml-4"> {/* Added ml-4 for a bit of spacing */}
-          {/* Date */}
-          <div className="flex items-start space-x-3 justify-start"> {/* Changed justify-end to justify-start */}
-            <Calendar className="w-5 h-5 text-pink-400" />
+        <div className="grid gap-4 rounded-2xl bg-white/10 p-4 text-sm lg:w-1/3">
+          <div className="flex items-center gap-3">
+            <Calendar className="w-5 h-5 text-amber-200" />
             <div>
-              <div className="text-xs text-white/80">TODAY</div>
-              <div className="text-sm font-large">{formatDate(currentTime)}</div>
+              <div className="text-xs text-white/70">TODAY</div>
+              <div className="text-sm font-semibold">{formatDate(currentTime)}</div>
             </div>
           </div>
 
-          {/* Time */}
-          <div className="flex items-center space-x-3 justify-start"> {/* Changed justify-end to justify-start */}
-            <Clock className="w-5 h-5 text-yellow-300" />
+          <div className="flex items-center gap-3">
+            <Clock className="w-5 h-5 text-amber-100" />
             <div>
-              <div className="text-xs text-white/80">CURRENT TIME</div>
-              <div className="text-sm font-medium">{formatTime(currentTime)}</div>
+              <div className="text-xs text-white/70">CURRENT TIME</div>
+              <div className="text-sm font-semibold">{formatTime(currentTime)}</div>
             </div>
           </div>
 
-          {/* Weather */}
-          <div className="flex items-center space-x-3 justify-start"> {/* Changed justify-end to justify-start */}
-            <Cloudy className="w-5 h-5 text-cyan-300" />
+          <div className="flex items-center gap-3">
+            <Cloudy className="w-5 h-5 text-sky-200" />
             <div>
-              <div className="text-xs text-white/80">WEATHER</div>
-              <div className="text-sm font-medium">
-                {weather.temp} - {weather.condition}
+              <div className="text-xs text-white/70">WEATHER</div>
+              <div className="text-sm font-semibold">
+                {weather.temp} • {weather.condition}
               </div>
             </div>
           </div>
 
-          {/* Location */}
-          <div className="flex items-center space-x-3 justify-start"
-          > {/* Changed justify-end to justify-start */}
-            <MapPin className="w-5 h-5 text-rose-300" />
+          <div className="flex items-center gap-3">
+            <MapPin className="w-5 h-5 text-rose-200" />
             <div>
-              <div className="text-xs text-white/80">LOCATION</div>
-              <div className="text-sm font-medium">
+              <div className="text-xs text-white/70">LOCATION</div>
+              <div className="text-sm font-semibold">
                 {location.city}{location.country && `, ${location.country}`}
               </div>
             </div>

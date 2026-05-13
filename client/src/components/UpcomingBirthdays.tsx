@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 import { Calendar, Cake, Sparkles, Gift } from 'lucide-react';
+import { supabase } from "@/lib/supabaseClient";
 
 interface Employee {
   name: string;
@@ -13,32 +14,31 @@ const UpcomingBirthdays = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem("token"); // 👈 or useContext(Auth)
+    let isMounted = true;
 
-    fetch("http://localhost:5000/api/employees", {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}` // 👈 ADD TOKEN
+    const loadEmployees = async () => {
+      const { data, error } = await supabase
+        .from("employees")
+        .select("name, department, birthday, avatar");
+
+      if (!isMounted) return;
+
+      if (error) {
+        console.error("Error fetching employees:", error.message);
+        setEmployees([]);
+        setLoading(false);
+        return;
       }
-    })
-      .then(res => res.json())
-      .then(data => {
-        console.log("Fetched employees:", data);
 
-        // Prevent crash if backend returns an error object instead of array
-        if (Array.isArray(data)) {
-          setEmployees(data);
-        } else {
-          console.error("Invalid data:", data);
-          setEmployees([]); // avoid map() error
-        }
+      setEmployees(Array.isArray(data) ? data : []);
+      setLoading(false);
+    };
 
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error("Error fetching employees:", err);
-        setLoading(false);
-      });
+    loadEmployees();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const getUpcomingBirthdays = () => {
@@ -46,11 +46,66 @@ const UpcomingBirthdays = () => {
     const currentYear = today.getFullYear();
     const nextYear = currentYear + 1;
 
+    const parseBirthday = (birthday?: string) => {
+      if (!birthday) return null;
+
+      const trimmed = birthday.trim();
+      if (!trimmed) return null;
+
+      const parts = trimmed
+        .split(/[-/]/)
+        .map(part => Number(part))
+        .filter(part => !Number.isNaN(part));
+
+      if (parts.length >= 2) {
+        let month = 0;
+        let day = 0;
+
+        if (parts.length >= 3) {
+          const first = parts[0];
+          const last = parts[2];
+
+          if (first > 31 || String(first).length === 4) {
+            month = parts[1];
+            day = parts[2];
+          } else if (last > 31 || String(last).length === 4) {
+            month = parts[0];
+            day = parts[1];
+          } else {
+            month = parts[0];
+            day = parts[1];
+          }
+        } else {
+          if (parts[0] > 12 && parts[1] <= 12) {
+            day = parts[0];
+            month = parts[1];
+          } else {
+            month = parts[0];
+            day = parts[1];
+          }
+        }
+
+        if (month >= 1 && month <= 12 && day >= 1 && day <= 31) {
+          return { month, day };
+        }
+      }
+
+      const parsedDate = new Date(trimmed);
+      if (!Number.isNaN(parsedDate.getTime())) {
+        return {
+          month: parsedDate.getUTCMonth() + 1,
+          day: parsedDate.getUTCDate(),
+        };
+      }
+
+      return null;
+    };
+
     return employees
       .map(employee => {
-        const [month, day] = (employee.birthday || "01-01")
-          .split("-")
-          .map(Number);
+        const parsed = parseBirthday(employee.birthday);
+        const month = parsed?.month ?? 1;
+        const day = parsed?.day ?? 1;
 
         let birthdayThisYear = new Date(currentYear, month - 1, day);
 
@@ -82,14 +137,14 @@ const UpcomingBirthdays = () => {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+      <div className="bg-white/80 rounded-2xl shadow-sm border border-gray-200/80 p-6">
         <p className="text-gray-600 text-center">Loading birthdays...</p>
       </div>
     );
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 mb-8 relative overflow-hidden">
+    <div className="bg-white/80 rounded-2xl shadow-sm border border-gray-200/80 p-6 relative overflow-hidden">
       {todaysBirthdays.length > 0 && (
         <div className="absolute inset-0 pointer-events-none">
           <div className="confetti-container">
@@ -115,28 +170,28 @@ const UpcomingBirthdays = () => {
       )}
 
       <div className="flex items-center mb-4 relative z-10">
-        <Cake className="w-6 h-6 text-pink-600 mr-2" />
-        <h2 className="text-xl font-semibold text-gray-800">
+        <Cake className="w-6 h-6 text-rose-500 mr-2" />
+        <h2 className="text-xl font-display text-gray-900">
           Upcoming Birthdays
         </h2>
         {todaysBirthdays.length > 0 && (
-          <Sparkles className="w-5 h-5 text-yellow-500 ml-2 animate-pulse" />
+          <Sparkles className="w-5 h-5 text-amber-400 ml-2 animate-pulse" />
         )}
       </div>
 
       {upcomingBirthdays.length === 0 ? (
-        <p className="text-gray-600 text-center py-4">
+        <div className="rounded-xl border border-dashed border-gray-200 p-6 text-center text-sm text-gray-600">
           No upcoming birthdays in the next 30 days.
-        </p>
+        </div>
       ) : (
         <div className="space-y-3 relative z-10">
           {upcomingBirthdays.map((employee, index) => (
             <div
               key={`${employee.name}-${employee.birthday}-${index}`}
-              className={`flex items-center justify-between p-3 rounded-lg border transition-all duration-300 ${
+              className={`flex flex-col gap-3 rounded-xl border p-4 transition-all duration-300 sm:flex-row sm:items-center sm:justify-between ${
                 employee.daysUntil === 0
-                  ? "bg-gradient-to-r from-yellow-100 via-pink-100 to-purple-100 border-yellow-300 shadow-lg animate-pulse"
-                  : "bg-gradient-to-r from-pink-50 to-purple-50 border-pink-100"
+                  ? "bg-gradient-to-r from-amber-100 via-rose-100 to-orange-100 border-amber-200 shadow-lg"
+                  : "bg-white border-gray-200"
               }`}
             >
               <div className="flex items-center">
