@@ -158,7 +158,6 @@ This file maintains an up-to-date list of project files and structure.
         - 📄 `client\src\components\ui\use-toast.tsx` (React TypeScript)
           - *Imports:* `@/hooks/use-toast`
           - *Exports:* `useToast`, `toast`
-      - 📁 `client\src\components\useContext/`
       - 📄 `client\src\components\AlertMessage.jsx` (React)
         - *Imports:* `framer-motion`
         - *Exports:* `AlertMessage`
@@ -267,4 +266,4 @@ This file maintains an up-to-date list of project files and structure.
 - 📄 `README.md` (Markdown)
 
 ---
-Last updated: 2026-05-14T04:06:58.278Z
+Last updated: 2026-05-14T04:27:08.977Z
