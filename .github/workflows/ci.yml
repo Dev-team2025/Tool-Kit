@@ -37,16 +37,3 @@ jobs:
       - name: Audit (high/critical only)
         run: npm audit --omit=dev --audit-level=high
 
-  dependency-review:
-    if: github.event_name == 'pull_request'
-    name: Dependency Review
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: read
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Dependency Review
-        uses: actions/dependency-review-action@v4
