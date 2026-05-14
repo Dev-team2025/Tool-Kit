@@ -15,6 +15,7 @@ import LearningDevelopment from "./pages/LearningDevelopment";
 import Technical from "./pages/Technical";
 import LoginPage from "./pages/LoginPage";
 import NotFound from "./pages/NotFound";
+import ProfilePage from "./pages/ProfilePage";
 
 // NEW Auth Pages
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
@@ -47,6 +48,7 @@ const App = () => (
             }
           >
             <Route index element={<Dashboard />} />
+            <Route path="profile" element={<ProfilePage />} />
             <Route path="sales-marketing" element={<SalesMarketing />} />
             <Route path="hr" element={<HumanResources />} />
             <Route path="learning" element={<LearningDevelopment />} />

@@ -6,7 +6,7 @@ const hrTools = [
   {
     name: 'Employee Profile',
     description: 'View and manage personal employee details, contact information, and HR records.',
-    url: '#',
+    url: '/profile',
     category: 'My Profile',
     color: 'bg-slate-500',
     icon: User

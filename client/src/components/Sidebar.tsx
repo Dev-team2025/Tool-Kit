@@ -19,6 +19,7 @@ import { useAuth } from '@/contexts/AuthContext';
 
 const departments = [
   { name: 'Dashboard', path: '/', icon: Home, color: 'text-teal-600' },
+  { name: 'Profile', path: '/profile', icon: Users, color: 'text-teal-600' },
   { name: 'Sales & Marketing', path: '/sales-marketing', icon: TrendingUp, color: 'text-amber-600' },
   { name: 'Human Resources', path: '/hr', icon: Users, color: 'text-slate-600' },
   { name: 'Learning & Development', path: '/learning', icon: GraduationCap, color: 'text-emerald-600' },

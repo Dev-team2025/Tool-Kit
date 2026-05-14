@@ -1,4 +1,5 @@
 import { ExternalLink, LucideIcon } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 interface ToolCardProps {
   name: string;
@@ -10,14 +11,11 @@ interface ToolCardProps {
 }
 
 const ToolCard = ({ name, description, url, category, color, icon: IconComponent }: ToolCardProps) => {
-  return (
-    <a
-      href={url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group block rounded-2xl border border-gray-200/80 bg-white/80 p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-teal-200 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
-      aria-label={`Open ${name}`}
-    >
+  // Check if the URL is internal (starts with /) or external
+  const isInternal = url.startsWith('/');
+
+  const cardContent = (
+    <>
       <div className="flex items-start justify-between gap-4">
         <div className={`flex h-12 w-12 items-center justify-center rounded-2xl ${color} text-white shadow-md shadow-black/5`}>
           {IconComponent ? (
@@ -43,6 +41,32 @@ const ToolCard = ({ name, description, url, category, color, icon: IconComponent
         Access tool
         <ExternalLink className="h-4 w-4 transition-transform group-hover:translate-x-1" />
       </div>
+    </>
+  );
+
+  const classes = "group block rounded-2xl border border-gray-200/80 bg-white/80 p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-teal-200 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500";
+
+  if (isInternal) {
+    return (
+      <Link
+        to={url}
+        className={classes}
+        aria-label={`Open ${name}`}
+      >
+        {cardContent}
+      </Link>
+    );
+  }
+
+  return (
+    <a
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={classes}
+      aria-label={`Open ${name}`}
+    >
+      {cardContent}
     </a>
   );
 };
