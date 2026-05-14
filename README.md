@@ -21,12 +21,25 @@ DLithe ToolKit is a modern, responsive workspace portal for internal teams. It p
 client/   # React frontend
 ```
 
-## Supabase Setup
+For client-specific details, see [client/README.md](client/README.md).
 
-### 1) Create a project
-Create a Supabase project and copy the **Project URL** and **Anon public key**.
+## Prerequisites
 
-### 2) Configure environment variables
+- Node.js 20+ (CI uses Node 20)
+- npm 8+
+
+## Quick Start
+
+```bash
+cd client
+npm install
+npm run dev
+```
+
+Open: http://localhost:5173
+
+## Environment Variables
+
 Create `client/.env`:
 
 ```env
@@ -37,14 +50,19 @@ VITE_API_NINJAS_KEY=your_api_ninjas_key
 
 Restart the dev server after editing `.env`.
 
-### 3) Auth settings
+## Supabase Setup
+
+### 1) Create a project
+Create a Supabase project and copy the **Project URL** and **Anon public key**.
+
+### 2) Auth settings
 In Supabase Dashboard -> Authentication -> URL Configuration, add:
 
 ```
 http://localhost:5173/reset-password
 ```
 
-### 4) Database table
+### 3) Database table
 Create an `employees` table with the following columns (all text unless stated):
 
 - `id` uuid primary key (default uuid)
@@ -57,7 +75,7 @@ Create an `employees` table with the following columns (all text unless stated):
 
 Add any extra columns you need; the UI only reads `name`, `department`, `birthday`, and `avatar`.
 
-### 5) RLS policy (required for reads)
+### 4) RLS policy (required for reads)
 If Row Level Security is enabled, allow authenticated reads:
 
 ```sql
@@ -76,15 +94,23 @@ for select
 using (true);
 ```
 
-## Running the App
+## Scripts (client)
 
-```bash
-cd client
-npm install
-npm run dev
-```
+From the `client` directory:
 
-Visit: http://localhost:5173
+- `npm run dev`: start the dev server
+- `npm run build`: build for production
+- `npm run preview`: preview the production build
+- `npm run lint`: run ESLint
+
+Production output is generated in `client/dist`.
+
+## CI/CD and Security
+
+- CI workflow: lint, build, and audit in [.github/workflows/ci.yml](.github/workflows/ci.yml)
+- CodeQL SAST scanning in [.github/workflows/codeql.yml](.github/workflows/codeql.yml)
+
+If CI fails with a Rollup native binary error on Linux, regenerate the lockfile on Linux or ensure the optional Rollup binary is installed during CI.
 
 ## Notes
 
