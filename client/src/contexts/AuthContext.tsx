@@ -5,6 +5,8 @@ import React, {
   useEffect,
   ReactNode,
 } from "react";
+import type { User as SupabaseUser } from "@supabase/supabase-js";
+import { supabase } from "@/lib/supabaseClient";
 
 interface User {
   id?: string;
@@ -17,8 +19,11 @@ interface AuthContextType {
   isAuthenticated: boolean;
   user: User | null;
   loading: boolean;
-  login: (email: string, password: string) => Promise<boolean>;
-  logout: () => void;
+  login: (
+    email: string,
+    password: string
+  ) => Promise<{ ok: boolean; error?: string }>;
+  logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -38,60 +43,80 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true); // 🔥 prevents redirect flicker
+  const [loading, setLoading] = useState(true);
 
-  // Restore login on refresh
+  const buildUser = (authUser: SupabaseUser | null): User | null => {
+    if (!authUser) return null;
+
+    return {
+      id: authUser.id,
+      email: authUser.email ?? "",
+      name: authUser.user_metadata?.name ?? undefined,
+      role: authUser.user_metadata?.role ?? undefined,
+    };
+  };
+
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const userData = localStorage.getItem("user");
+    let isMounted = true;
 
-    if (token && userData) {
-      setIsAuthenticated(true);
-      setUser(JSON.parse(userData));
-    } else {
-      // 🔥 If token is missing or user missing → clear everything
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
-      setIsAuthenticated(false);
-      setUser(null);
-    }
+    const initSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      if (!isMounted) return;
 
-    setLoading(false);
+      const nextUser = buildUser(data.session?.user ?? null);
+      setUser(nextUser);
+      setIsAuthenticated(Boolean(nextUser));
+      setLoading(false);
+    };
+
+    initSession();
+
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        if (!isMounted) return;
+
+        const nextUser = buildUser(session?.user ?? null);
+        setUser(nextUser);
+        setIsAuthenticated(Boolean(nextUser));
+        setLoading(false);
+      }
+    );
+
+    return () => {
+      isMounted = false;
+      authListener.subscription.unsubscribe();
+    };
   }, []);
 
   // Login Function
-  const login = async (email: string, password: string): Promise<boolean> => {
+  const login = async (
+    email: string,
+    password: string
+  ): Promise<{ ok: boolean; error?: string }> => {
     try {
-      const res = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
       });
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        return false;
+      if (error || !data.user) {
+        return { ok: false, error: error?.message ?? "Login failed" };
       }
 
-      // 🔥 Save token & user
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
+      const nextUser = buildUser(data.user);
+      setUser(nextUser);
+      setIsAuthenticated(Boolean(nextUser));
 
-      setIsAuthenticated(true);
-      setUser(data.user);
-
-      return true;
+      return { ok: Boolean(nextUser) };
     } catch (error) {
       console.error("Login error:", error);
-      return false;
+      return { ok: false, error: "Unexpected login error" };
     }
   };
 
   // Logout function
-  const logout = () => {
-    localStorage.removeItem("token"); // 🔥 Immediately clear token
-    localStorage.removeItem("user");
+  const logout = async () => {
+    await supabase.auth.signOut();
     setIsAuthenticated(false);
     setUser(null);
   };

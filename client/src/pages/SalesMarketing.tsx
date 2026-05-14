@@ -8,7 +8,7 @@ const salesTools = [
     description: 'Centralized platform for managing sales & marketing requirements and curating our pool of expert trainers.',
     url: 'http://143.110.185.65:5173 ',
     category: 'Resource Hub',
-    color: 'bg-green-600',
+    color: 'bg-teal-500',
     icon: Users
   },
   {
@@ -16,7 +16,7 @@ const salesTools = [
     description: 'Access and manage a comprehensive archive of all past sales and marketing proposals for reference and learning.',
     url: '#',
     category: 'Proposal Vault',
-    color: 'bg-blue-600',
+    color: 'bg-amber-500',
     icon: FolderOpen
   },
   {
@@ -24,7 +24,7 @@ const salesTools = [
     description: 'Track and visualize all sales and marketing activities to measure engagement and performance.',
     url: '#',
     category: 'Activity Monitor',
-    color: 'bg-red-600',
+    color: 'bg-rose-500',
     icon: TrendingUp
   },
   {
@@ -32,24 +32,26 @@ const salesTools = [
     description: 'Browse and contribute to our curated collection of sales and marketing articles, blogs, and social media posts.',
     url: '#',
     category: 'Content Library',
-    color: 'bg-purple-600',
+    color: 'bg-sky-500',
     icon: Newspaper
   }
 ];
 
 const SalesMarketing = () => {
   return (
-    <div className="max-w-7xl mx-auto">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">Sales & Marketing Tools</h1>
-        <p className="text-gray-600">Access your CRM, marketing platforms, and analytics tools.</p>
-      </div>
+    <div className="max-w-7xl mx-auto space-y-8">
+      <section className="rounded-3xl border border-amber-100/80 bg-white/80 p-8 shadow-sm">
+        <h2 className="text-3xl font-display text-gray-900">Sales & Marketing</h2>
+        <p className="mt-2 text-sm text-gray-600">
+          Access your CRM, campaign tools, and performance insights.
+        </p>
+      </section>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <section className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {salesTools.map((tool, index) => (
           <ToolCard key={index} {...tool} />
         ))}
-      </div>
+      </section>
     </div>
   );
 };
