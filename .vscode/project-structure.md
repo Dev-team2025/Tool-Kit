@@ -159,39 +159,26 @@ This file maintains an up-to-date list of project files and structure.
           - *Imports:* `@/hooks/use-toast`
           - *Exports:* `useToast`, `toast`
       - 📁 `client\src\components\useContext/`
-        - 📄 `client\src\components\useContext\ProtectedRoute.jsx` (React)
-          - *Imports:* `react-router-dom`, `./UserContext`
-          - *Exports:* `ProtectedRoute`
-        - 📄 `client\src\components\useContext\UserContext.jsx` (React)
-          - *Imports:* `react`
       - 📄 `client\src\components\AlertMessage.jsx` (React)
         - *Imports:* `framer-motion`
         - *Exports:* `AlertMessage`
       - 📄 `client\src\components\DailyQuote.tsx` (React TypeScript)
         - *Imports:* `react`, `lucide-react`
       - 📄 `client\src\components\Layout.tsx` (React TypeScript)
-        - *Imports:* `react-router-dom`, `./Sidebar`
-      - 📄 `client\src\components\Login.jsx` (React)
-        - *Imports:* `react`, `react-router-dom`, `./useContext/UserContext`, `./AlertMessage`
-        - *Exports:* `LoginPage`
+        - *Imports:* `react-router-dom`, `lucide-react`, `./Sidebar`, `@/contexts/AuthContext`
       - 📄 `client\src\components\ProtectedRoute.tsx` (React TypeScript)
-        - *Imports:* `react-router-dom`
+        - *Imports:* `react-router-dom`, `@/contexts/AuthContext`
         - *Exports:* `ProtectedRoute`
-      - 📄 `client\src\components\ResetPassword.jsx` (React)
-        - *Imports:* `react`, `./ui/button`, `./ui/input`, `framer-motion`, `react-router-dom`, `./AlertMessage`
-        - *Exports:* `ResetPassword`
       - 📄 `client\src\components\Sidebar.tsx` (React TypeScript)
-        - *Imports:* `react`, `react-router-dom`, `lucide-react`
+        - *Imports:* `react`, `react-router-dom`, `lucide-react`, `@/contexts/AuthContext`
         - *Routes Provided:* `GET /`, `GET /sales-marketing`, `GET /hr`, `GET /learning`, `GET /technical`, `GET #`, `GET #`, `GET #`, `GET #`, `GET #`, `GET #`
       - 📄 `client\src\components\ToolCard.tsx` (React TypeScript)
         - *Imports:* `lucide-react`
       - 📄 `client\src\components\UpcomingBirthdays.tsx` (React TypeScript)
-        - *Imports:* `react`, `lucide-react`
-        - *Routes Consumed:* `http://localhost:5000/api/employees`
+        - *Imports:* `react`, `lucide-react`, `@/lib/supabaseClient`
     - 📁 `client\src\contexts/`
       - 📄 `client\src\contexts\AuthContext.tsx` (React TypeScript)
-        - *Imports:* `react`
-        - *Routes Consumed:* `http://localhost:5000/api/auth/login`
+        - *Imports:* `react`, `@supabase/supabase-js`, `@/lib/supabaseClient`
     - 📁 `client\src\hooks/`
       - 📄 `client\src\hooks\use-mobile.tsx` (React TypeScript)
         - *Imports:* `react`
@@ -200,6 +187,8 @@ This file maintains an up-to-date list of project files and structure.
         - *Imports:* `react`, `@/components/ui/toast`
         - *Exports:* `useToast`, `toast`
     - 📁 `client\src\lib/`
+      - 📄 `client\src\lib\supabaseClient.ts` (TypeScript)
+        - *Imports:* `@supabase/supabase-js`
       - 📄 `client\src\lib\utils.ts` (TypeScript)
         - *Imports:* `clsx`, `tailwind-merge`
         - *Exports:* `cn`
@@ -208,10 +197,9 @@ This file maintains an up-to-date list of project files and structure.
         - *Imports:* `../components/DailyQuote`, `../components/ToolCard`, `../components/UpcomingBirthdays`, `lucide-react`
         - *Routes Provided:* `GET /Dashboard`
       - 📄 `client\src\pages\ForgotPasswordPage.tsx` (React TypeScript)
-        - *Imports:* `react`, `@/components/ui/button`, `@/components/ui/input`, `@/components/ui/card`, `react-router-dom`
+        - *Imports:* `react`, `@/components/ui/button`, `@/components/ui/input`, `@/components/ui/card`, `react-router-dom`, `@/lib/supabaseClient`, `@/components/ui/label`
         - *Exports:* `ForgotPasswordPage`
         - *Routes Provided:* `GET /ForgotPasswordPage`
-        - *Routes Consumed:* `http://localhost:5000/api/auth/forgot-password`
       - 📄 `client\src\pages\HumanResources.tsx` (React TypeScript)
         - *Imports:* `../components/ToolCard`, `lucide-react`
         - *Routes Provided:* `GET /HumanResources`
@@ -229,10 +217,9 @@ This file maintains an up-to-date list of project files and structure.
         - *Imports:* `react-router-dom`, `react`
         - *Routes Provided:* `GET /NotFound`
       - 📄 `client\src\pages\ResetPasswordPage.tsx` (React TypeScript)
-        - *Imports:* `react-router-dom`, `react`, `@/components/ui/button`, `@/components/ui/input`, `@/components/ui/card`
+        - *Imports:* `react-router-dom`, `react`, `@/components/ui/button`, `@/components/ui/input`, `@/components/ui/card`, `@/lib/supabaseClient`, `@/components/ui/label`
         - *Exports:* `ResetPasswordPage`
         - *Routes Provided:* `GET /ResetPasswordPage`
-        - *Routes Consumed:* `http://localhost:5000/api/auth/reset-password`
       - 📄 `client\src\pages\SalesMarketing.tsx` (React TypeScript)
         - *Imports:* `../components/ToolCard`, `lucide-react`
         - *Routes Provided:* `GET /SalesMarketing`
@@ -240,10 +227,9 @@ This file maintains an up-to-date list of project files and structure.
         - *Imports:* `../components/ToolCard`, `lucide-react`
         - *Routes Provided:* `GET /Technical`
       - 📄 `client\src\pages\VerifyCodePage.tsx` (React TypeScript)
-        - *Imports:* `react-router-dom`, `react`, `@/components/ui/button`, `@/components/ui/input`, `@/components/ui/card`
+        - *Imports:* `react-router-dom`, `@/components/ui/button`, `@/components/ui/card`
         - *Exports:* `VerifyCodePage`
         - *Routes Provided:* `GET /VerifyCodePage`
-        - *Routes Consumed:* `http://localhost:5000/api/auth/verify-code`
     - 📄 `client\src\App.css` (CSS)
     - 📄 `client\src\App.test.js` (JavaScript)
       - *Imports:* `@testing-library/react`, `./App`
@@ -258,6 +244,9 @@ This file maintains an up-to-date list of project files and structure.
     - 📄 `client\src\reportWebVitals.js` (JavaScript)
     - 📄 `client\src\setupTests.js` (JavaScript)
       - *Imports:* `@testing-library/jest-dom`
+    - 📄 `client\src\vite-env.d.ts` (TypeScript)
+  - 📄 `client\.env` (Unknown)
+  - 📄 `client\.env.example` (Unknown)
   - 📄 `client\.gitignore` (Unknown)
   - 📄 `client\components.json` (JSON)
   - 📄 `client\eslint.config.js` (JavaScript)
@@ -274,50 +263,8 @@ This file maintains an up-to-date list of project files and structure.
   - 📄 `client\tsconfig.node.json` (JSON)
   - 📄 `client\vite.config.ts` (TypeScript)
     - *Imports:* `vite`, `@vitejs/plugin-react-swc`, `path`, `lovable-tagger`
-- 📁 `server/`
-  - 📁 `server\config/`
-    - 📄 `server\config\supabaseClient.js` (JavaScript)
-      - *Imports:* `dotenv`, `@supabase/supabase-js`
-  - 📁 `server\controllers/`
-    - 📄 `server\controllers\authController.js` (JavaScript)
-      - *Imports:* `dotenv`, `jsonwebtoken`, `nodemailer`, `bcryptjs`, `../config/supabaseClient.js`, `../utils/employeeMapper.js`
-    - 📄 `server\controllers\employeeController.js` (JavaScript)
-      - *Imports:* `bcryptjs`, `../config/supabaseClient.js`, `../utils/employeeMapper.js`, `../utils/employeeInputMapper.js`
-  - 📁 `server\middleware/`
-    - 📄 `server\middleware\authMiddleware.js` (JavaScript)
-      - *Imports:* `jsonwebtoken`, `../config/supabaseClient.js`, `../utils/employeeMapper.js`
-  - 📁 `server\models/`
-  - 📁 `server\routes/`
-    - 📄 `server\routes\authRoutes.js` (JavaScript)
-      - *Imports:* `express`, `../controllers/authController.js`
-      - *Routes Provided:* `POST /register`, `POST /login`, `POST /forgot-password`, `POST /verify-code`, `POST /reset-password`, `GET /users`
-    - 📄 `server\routes\employeeRoutes.js` (JavaScript)
-      - *Imports:* `express`, `../middleware/authMiddleware.js`, `../controllers/employeeController.js`
-      - *Routes Provided:* `GET /`, `GET /:id`, `POST /`, `PUT /:id`, `DELETE /:id`
-  - 📁 `server\utils/`
-    - 📄 `server\utils\employeeInputMapper.js` (JavaScript)
-      - *Exports:* `mapEmployeeToDB`
-    - 📄 `server\utils\employeeMapper.js` (JavaScript)
-      - *Exports:* `mapEmployeeFromDB`, `mapEmployeesFromDB`
-  - 📄 `server\.env` (Unknown)
-  - 📄 `server\.env.example` (Unknown)
-  - 📄 `server\app.js` (JavaScript)
-    - *Imports:* `express`, `cors`, `./routes/employeeRoutes.js`
-  - 📄 `server\package-lock.json` (JSON)
-  - 📄 `server\package.json` (JSON)
-  - 📄 `server\seed.js` (JavaScript)
-    - *Imports:* `bcryptjs`, `dotenv/config`, `./config/supabaseClient.js`
-  - 📄 `server\server.js` (JavaScript)
-    - *Imports:* `express`, `cors`, `dotenv/config`, `./routes/authRoutes.js`, `./routes/employeeRoutes.js`
-  - 📄 `server\supabase_schema.sql` (Unknown)
-  - 📄 `server\testenv.js` (JavaScript)
-    - *Imports:* `dotenv/config`, `./config/supabaseClient.js`
-  - 📄 `server\testMail.js` (JavaScript)
-    - *Imports:* `nodemailer`
-  - 📄 `server\testSupabaseConnection.js` (JavaScript)
-    - *Imports:* `dotenv`, `@supabase/supabase-js`
 - 📄 `.gitignore` (Unknown)
 - 📄 `README.md` (Markdown)
 
 ---
-Last updated: 2026-05-13T09:09:41.266Z
+Last updated: 2026-05-14T04:06:58.278Z
