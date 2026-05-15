@@ -13,31 +13,32 @@ import {
   CalendarDays,
   FileText,
   FolderOpen,
-  Sparkles
+  LogOut,
+  ChevronRight
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { Button } from '@/components/ui/button';
 
 const departments = [
-  { name: 'Dashboard', path: '/', icon: Home, color: 'text-teal-600' },
-  { name: 'Profile', path: '/profile', icon: Users, color: 'text-teal-600' },
-  { name: 'Sales & Marketing', path: '/sales-marketing', icon: TrendingUp, color: 'text-amber-600' },
-  { name: 'Human Resources', path: '/hr', icon: Users, color: 'text-slate-600' },
-  { name: 'Learning & Development', path: '/learning', icon: GraduationCap, color: 'text-emerald-600' },
-  { name: 'Technical', path: '/technical', icon: Settings, color: 'text-rose-600' },
+  { name: 'Dashboard', path: '/', icon: Home },
+  { name: 'Profile', path: '/profile', icon: Users },
+  { name: 'Sales & Marketing', path: '/sales-marketing', icon: TrendingUp },
+  { name: 'Human Resources', path: '/hr', icon: Users },
+  { name: 'Learning & Development', path: '/learning', icon: GraduationCap },
+  { name: 'Technical', path: '/technical', icon: Settings },
 ];
 
 const quickAccessTools = [
-  { name: 'Attendance', path: '#', icon: Clock, color: 'from-teal-500 to-teal-600', shadowColor: 'shadow-teal-500/25' },
-  { name: 'Time Sheet', path: '#', icon: Calendar, color: 'from-amber-500 to-amber-600', shadowColor: 'shadow-amber-500/25' },
-  { name: 'Events', path: '#', icon: CalendarDays, color: 'from-emerald-500 to-emerald-600', shadowColor: 'shadow-emerald-500/25' },
-  { name: 'Practice Test', path: '#', icon: FileText, color: 'from-rose-500 to-rose-600', shadowColor: 'shadow-rose-500/25' },
-  { name: 'Activity Monitor', path: '#', icon: TrendingUp, color: 'from-sky-500 to-sky-600', shadowColor: 'shadow-sky-500/25' },
-  { name: 'Proposal Vault', path: '#', icon: FolderOpen, color: 'from-slate-600 to-slate-700', shadowColor: 'shadow-slate-500/25' },
+  { name: 'Attendance', path: '#', icon: Clock },
+  { name: 'Time Sheet', path: '#', icon: Calendar },
+  { name: 'Events', path: '#', icon: CalendarDays },
+  { name: 'Practice Test', path: '#', icon: FileText },
+  { name: 'Activity Monitor', path: '#', icon: TrendingUp },
+  { name: 'Proposal Vault', path: '#', icon: FolderOpen },
 ];
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [hoveredTool, setHoveredTool] = useState(null);
   const navigate = useNavigate();
   const { logout, user } = useAuth();
 
@@ -49,7 +50,7 @@ const Sidebar = () => {
     navigate('/login');
   };
 
-  const handleToolClick = (path) => {
+  const handleToolClick = (path: string) => {
     navigate(path);
     setIsOpen(false);
   };
@@ -60,47 +61,59 @@ const Sidebar = () => {
       <button
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Toggle navigation"
-        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-white/90 rounded-full shadow-md hover:shadow-lg transition-shadow"
+        className="lg:hidden fixed top-5 left-5 z-50 p-2.5 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 border border-gray-200"
       >
-        {isOpen ? <X size={24} /> : <Menu size={24} />}
+        {isOpen ? <X size={20} className="text-gray-700" /> : <Menu size={20} className="text-gray-700" />}
       </button>
 
       {/* Overlay for mobile */}
       {isOpen && (
         <div 
-          className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-40"
+          className="lg:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-40 transition-opacity"
           onClick={() => setIsOpen(false)}
         />
       )}
 
       {/* Sidebar */}
       <div className={`
-        fixed left-0 top-0 h-full w-72 bg-white/90 backdrop-blur-2xl shadow-[0_20px_60px_rgba(15,23,42,0.18)] z-40 transform transition-transform duration-300 ease-in-out
-        lg:translate-x-0 lg:static lg:z-0 flex flex-col border-r border-gray-200/70
+        fixed left-0 top-0 h-full w-72 bg-white z-40 transform transition-transform duration-300 ease-out
+        lg:translate-x-0 lg:static lg:z-0 flex flex-col border-r border-gray-200 shadow-xl lg:shadow-none
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
-        <div className="px-6 pt-6">
-          <div className="rounded-3xl border border-teal-100/70 bg-gradient-to-br from-white via-white to-teal-50 p-5 shadow-sm">
-            <div className="flex items-start justify-between">
-              <img src="/Dlithe_logo.png" alt="DLithe Logo" className="w-28" />
-              <span className="rounded-full bg-teal-50 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.25em] text-teal-700">
-                Live
-              </span>
+        {/* Logo Section */}
+        <div className="p-6 border-b border-gray-200">
+          <div className="flex items-center gap-3">
+            <img src="/Dlithe_logo.png" alt="DLithe Logo" className="w-10 h-10 object-contain" />
+            <div className="flex-1">
+              <h2 className="text-lg font-display font-bold text-gray-900">DLithe ToolKit</h2>
+              <p className="text-xs text-muted-foreground">Workspace Portal</p>
             </div>
-            <div className="mt-4">
-              <p className="text-xs uppercase tracking-[0.3em] text-gray-500">Workspace</p>
-              <p className="text-lg font-display text-gray-900">DLithe ToolKit</p>
-              <p className="text-xs text-gray-500">
-                {user?.name ?? user?.email ?? 'Signed in'}
+            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" title="Online" />
+          </div>
+        </div>
+
+        {/* User Info */}
+        <div className="px-4 py-4 border-b border-gray-200 bg-gradient-to-br from-primary/5 to-transparent">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center text-white font-semibold text-sm shadow-md">
+              {user?.name?.[0] || user?.email?.[0] || 'U'}
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-semibold text-gray-900 truncate">
+                {user?.name || 'User'}
+              </p>
+              <p className="text-xs text-muted-foreground truncate">
+                {user?.email || 'user@example.com'}
               </p>
             </div>
           </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto px-4 pb-6 pt-6">
-          <nav className="space-y-1" aria-label="Primary">
+        {/* Navigation */}
+        <div className="flex-1 overflow-y-auto px-3 py-4">
+          <nav className="space-y-1" aria-label="Primary navigation">
+            <p className="px-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Menu</p>
             {departments.map((dept) => {
-              
               const IconComponent = dept.icon;
               return (
                 <NavLink
@@ -108,20 +121,18 @@ const Sidebar = () => {
                   to={dept.path}
                   onClick={() => setIsOpen(false)}
                   className={({ isActive }) => `
-                    group flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-semibold text-gray-700 transition-all duration-200
-                    hover:bg-white hover:shadow-sm hover:text-gray-900
-                    ${isActive ? 'bg-gradient-to-r from-teal-50 via-white to-white text-teal-800 shadow-sm ring-1 ring-teal-100' : ''}
+                    group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200
+                    ${isActive 
+                      ? 'bg-primary text-white shadow-md shadow-primary/20' 
+                      : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
+                    }
                   `}
                 >
                   {({ isActive }) => (
                     <>
-                      <div className={`flex h-10 w-10 items-center justify-center rounded-xl bg-gray-50 text-gray-500 transition-colors group-hover:bg-teal-50 ${isActive ? 'bg-teal-100 text-teal-700' : ''}`}>
-                        <IconComponent className={`h-5 w-5 ${dept.color}`} />
-                      </div>
-                      <div className="flex flex-1 items-center justify-between">
-                        <span>{dept.name}</span>
-                        {isActive && <span className="text-xs text-teal-600">Active</span>}
-                      </div>
+                      <IconComponent className={`h-5 w-5 flex-shrink-0 transition-transform group-hover:scale-110 ${isActive ? 'text-white' : 'text-gray-500'}`} />
+                      <span className="flex-1">{dept.name}</span>
+                      {isActive && <ChevronRight className="h-4 w-4" />}
                     </>
                   )}
                 </NavLink>
@@ -129,35 +140,23 @@ const Sidebar = () => {
             })}
           </nav>
 
-          {/* Quick Access 3D Tools after departments */}
-          <div className="mt-8 rounded-2xl border border-gray-200/70 bg-white/70 p-4">
-            <div className="flex items-center justify-between">
-              <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-[0.25em]">
-                Quick Access
-              </h3>
-              <Sparkles className="h-4 w-4 text-amber-400" />
-            </div>
-            <div className="mt-4 grid grid-cols-2 gap-3" style={{ transformStyle: 'preserve-3d' }}>
+          {/* Quick Access */}
+          <div className="mt-6">
+            <p className="px-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Quick Access</p>
+            <div className="grid grid-cols-2 gap-2">
               {quickAccessTools.map((tool, index) => {
                 const IconComponent = tool.icon;
-                const isHovered = hoveredTool === index;
-
                 return (
                   <button
                     key={index}
                     type="button"
-                    className={`
-                      relative flex flex-col items-start gap-2 rounded-2xl border border-transparent bg-white p-3 text-left shadow-sm transition-all duration-300
-                      ${isHovered ? 'scale-[1.03] border-teal-100 shadow-md' : 'hover:scale-[1.03] hover:border-teal-100'}
-                    `}
-                    onMouseEnter={() => setHoveredTool(index)}
-                    onMouseLeave={() => setHoveredTool(null)}
                     onClick={() => handleToolClick(tool.path)}
+                    className="flex flex-col items-center gap-2 p-3 rounded-lg bg-gradient-to-br from-gray-50 to-gray-100 hover:from-primary/10 hover:to-primary/5 border border-gray-200 hover:border-primary/30 transition-all duration-200 hover:shadow-sm group"
                   >
-                    <div className={`flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br ${tool.color} text-white shadow ${tool.shadowColor}`}>
-                      <IconComponent className="h-5 w-5" />
+                    <div className="w-8 h-8 rounded-lg bg-white shadow-sm flex items-center justify-center group-hover:shadow-md transition-shadow">
+                      <IconComponent className="h-4 w-4 text-primary" />
                     </div>
-                    <span className="text-xs font-semibold text-gray-700">{tool.name}</span>
+                    <span className="text-[10px] font-medium text-gray-700 text-center leading-tight">{tool.name}</span>
                   </button>
                 );
               })}
@@ -165,14 +164,16 @@ const Sidebar = () => {
           </div>
         </div>
 
-        <div className="p-4 border-t border-gray-200/70 mt-auto">
-          <button
-            type="button"
+        {/* Logout Button */}
+        <div className="p-4 border-t border-gray-200 bg-gray-50">
+          <Button
             onClick={handleLogout}
-            className="w-full rounded-2xl border border-red-100 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700 hover:bg-red-100 transition-colors"
+            variant="outline"
+            className="w-full justify-start gap-2 text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700 hover:border-red-300"
           >
+            <LogOut className="h-4 w-4" />
             Log Out
-          </button>
+          </Button>
         </div>
       </div>
     </>
@@ -180,5 +181,3 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
-
-

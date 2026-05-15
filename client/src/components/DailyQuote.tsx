@@ -168,54 +168,56 @@ const DailyQuote = () => {
     date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
 
   return (
-    <div className="rounded-3xl border border-teal-200/60 bg-gradient-to-br from-teal-600 via-teal-500 to-emerald-500 p-8 text-white shadow-xl">
-      <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
-        <div className="flex items-start gap-4 lg:w-2/3">
-          <Quote className="w-7 h-7 flex-shrink-0 opacity-90 mt-1" />
-          <div>
-            <h3 className="text-lg font-semibold mb-2">Quote of the Day</h3>
-            <blockquote className="text-2xl font-medium mb-2 leading-relaxed">
+    <div className="rounded-xl border-2 border-primary/20 bg-gradient-to-br from-primary to-primary/90 p-6 sm:p-8 text-white shadow-xl">
+      <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
+        {/* Quote Section */}
+        <div className="flex-1 flex items-start gap-4">
+          <div className="flex-shrink-0">
+            <Quote className="w-8 h-8 opacity-80" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-xs font-semibold uppercase tracking-wider opacity-90 mb-3">Quote of the Day</p>
+            <blockquote className="text-lg sm:text-xl font-medium leading-relaxed mb-3">
               "{currentQuote.text}"
             </blockquote>
-            <cite className="text-white/80 font-medium">— {currentQuote.author}</cite>
+            <cite className="text-sm text-white/90 font-medium not-italic">— {currentQuote.author}</cite>
           </div>
         </div>
 
-        <div className="grid gap-4 rounded-2xl bg-white/10 p-4 text-sm lg:w-1/3">
-          <div className="flex items-center gap-3">
-            <Calendar className="w-5 h-5 text-amber-200" />
-            <div>
-              <div className="text-xs text-white/70">TODAY</div>
-              <div className="text-sm font-semibold">{formatDate(currentTime)}</div>
+        {/* Info Cards */}
+        <div className="lg:w-80 grid grid-cols-2 gap-3">
+          <div className="rounded-lg bg-white/10 backdrop-blur-sm p-3 border border-white/20">
+            <div className="flex items-center gap-2 mb-2">
+              <Calendar className="w-4 h-4 text-amber-200" />
+              <span className="text-[10px] font-semibold uppercase tracking-wider opacity-80">Today</span>
             </div>
+            <p className="text-xs font-medium leading-tight">{formatDate(currentTime)}</p>
           </div>
 
-          <div className="flex items-center gap-3">
-            <Clock className="w-5 h-5 text-amber-100" />
-            <div>
-              <div className="text-xs text-white/70">CURRENT TIME</div>
-              <div className="text-sm font-semibold">{formatTime(currentTime)}</div>
+          <div className="rounded-lg bg-white/10 backdrop-blur-sm p-3 border border-white/20">
+            <div className="flex items-center gap-2 mb-2">
+              <Clock className="w-4 h-4 text-amber-200" />
+              <span className="text-[10px] font-semibold uppercase tracking-wider opacity-80">Time</span>
             </div>
+            <p className="text-xs font-medium">{formatTime(currentTime)}</p>
           </div>
 
-          <div className="flex items-center gap-3">
-            <Cloudy className="w-5 h-5 text-sky-200" />
-            <div>
-              <div className="text-xs text-white/70">WEATHER</div>
-              <div className="text-sm font-semibold">
-                {weather.temp} • {weather.condition}
-              </div>
+          <div className="rounded-lg bg-white/10 backdrop-blur-sm p-3 border border-white/20">
+            <div className="flex items-center gap-2 mb-2">
+              <Cloudy className="w-4 h-4 text-sky-200" />
+              <span className="text-[10px] font-semibold uppercase tracking-wider opacity-80">Weather</span>
             </div>
+            <p className="text-xs font-medium">{weather.temp} • {weather.condition}</p>
           </div>
 
-          <div className="flex items-center gap-3">
-            <MapPin className="w-5 h-5 text-rose-200" />
-            <div>
-              <div className="text-xs text-white/70">LOCATION</div>
-              <div className="text-sm font-semibold">
-                {location.city}{location.country && `, ${location.country}`}
-              </div>
+          <div className="rounded-lg bg-white/10 backdrop-blur-sm p-3 border border-white/20">
+            <div className="flex items-center gap-2 mb-2">
+              <MapPin className="w-4 h-4 text-rose-200" />
+              <span className="text-[10px] font-semibold uppercase tracking-wider opacity-80">Location</span>
             </div>
+            <p className="text-xs font-medium truncate">
+              {location.city}{location.country && `, ${location.country}`}
+            </p>
           </div>
         </div>
       </div>

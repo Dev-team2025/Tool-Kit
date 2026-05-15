@@ -87,13 +87,11 @@ export default function ProfilePage() {
     setSuccess("");
 
     try {
-      // Update employees table by email (more robust) and update auth user metadata
+      // Update only name in employees table
       const { error: updateError } = await supabase
         .from("employees")
         .update({
           name: formData.name,
-          birthday: formData.birthday,
-          department: formData.department,
         })
         .eq("email", formData.email);
 
@@ -113,6 +111,7 @@ export default function ProfilePage() {
         setError(`Profile saved, but auth update failed: ${authUpdateError.message}`);
       } else {
         setSuccess("Profile updated successfully!");
+        setProfile({ ...profile, name: formData.name });
       }
       setTimeout(() => setSuccess(""), 3000);
     } catch (err: any) {
@@ -201,58 +200,62 @@ export default function ProfilePage() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <Loader2 className="h-8 w-8 animate-spin text-teal-600" />
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <div className="text-center space-y-3">
+          <Loader2 className="h-10 w-10 animate-spin text-primary mx-auto" />
+          <p className="text-sm text-muted-foreground">Loading your profile...</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-2xl mx-auto space-y-8">
+    <div className="max-w-3xl mx-auto space-y-6">
       {/* Back Button */}
-      <button
+      <Button
         onClick={() => navigate(-1)}
-        className="flex items-center gap-2 text-teal-600 hover:text-teal-700 font-medium"
+        variant="ghost"
+        className="gap-2 -ml-2"
       >
         <ArrowLeft className="h-4 w-4" />
         Back
-      </button>
-
-      {/* Profile Header */}
-      <section className="rounded-3xl border border-teal-100/70 bg-white/80 p-8 shadow-sm">
-        <h1 className="text-3xl font-display text-gray-900">Your Profile</h1>
-        <p className="mt-2 text-sm text-gray-600">
-          View and update your personal and professional information.
-        </p>
-      </section>
+      </Button>
 
       {/* Error Alert */}
       {error && (
-        <Alert variant="destructive">
-          <AlertDescription>{error}</AlertDescription>
+        <Alert variant="destructive" className="border-2">
+          <AlertDescription className="font-medium">{error}</AlertDescription>
         </Alert>
       )}
 
       {/* Success Alert */}
       {success && (
-        <Alert className="bg-green-50 border-green-200">
+        <Alert className="bg-green-50 border-2 border-green-200">
           <CheckCircle className="h-4 w-4 text-green-600" />
-          <AlertDescription className="text-green-800">{success}</AlertDescription>
+          <AlertDescription className="text-green-800 font-medium">{success}</AlertDescription>
         </Alert>
       )}
 
       {/* Profile Form */}
       {formData && (
-        <Card className="shadow-xl border border-gray-200/80">
-          <CardHeader>
-            <CardTitle>Personal Information</CardTitle>
+        <Card className="border-2 border-gray-200 shadow-sm">
+          <CardHeader className="border-b border-gray-200 bg-gray-50">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center text-white font-bold text-lg shadow-md">
+                {formData.name?.[0] || 'U'}
+              </div>
+              <div>
+                <CardTitle className="text-xl">Personal Information</CardTitle>
+                <p className="text-sm text-muted-foreground mt-1">Update your profile details</p>
+              </div>
+            </div>
           </CardHeader>
 
-          <CardContent>
-            <form onSubmit={handleSave} className="space-y-6">
+          <CardContent className="pt-6">
+            <form onSubmit={handleSave} className="space-y-5">
               {/* Full Name */}
               <div className="space-y-2">
-                <Label htmlFor="name" className="text-gray-700">
+                <Label htmlFor="name" className="text-sm font-semibold">
                   Full Name
                 </Label>
                 <Input
@@ -262,13 +265,12 @@ export default function ProfilePage() {
                   value={formData.name || ""}
                   onChange={handleInputChange}
                   placeholder="Enter your full name"
-                  className="border-gray-200"
                 />
               </div>
 
               {/* Email (Read-only) */}
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-gray-700">
+                <Label htmlFor="email" className="text-sm font-semibold">
                   Email Address
                 </Label>
                 <Input
@@ -276,14 +278,14 @@ export default function ProfilePage() {
                   type="email"
                   value={formData.email || ""}
                   disabled
-                  className="bg-gray-50 border-gray-200 cursor-not-allowed"
+                  className="bg-muted"
                 />
-                <p className="text-xs text-gray-500">Email cannot be changed</p>
+                <p className="text-xs text-muted-foreground">Email cannot be changed</p>
               </div>
 
               {/* Department/Base */}
               <div className="space-y-2">
-                <Label htmlFor="department" className="text-gray-700">
+                <Label htmlFor="department" className="text-sm font-semibold">
                   Department / Base
                 </Label>
                 <Input
@@ -291,15 +293,15 @@ export default function ProfilePage() {
                   name="department"
                   type="text"
                   value={formData.department || ""}
-                  onChange={handleInputChange}
-                  placeholder="e.g., Engineering, Sales, HR"
-                  className="border-gray-200"
+                  disabled
+                  className="bg-muted"
                 />
+                <p className="text-xs text-muted-foreground">Contact admin to change your department</p>
               </div>
 
               {/* Birthday */}
               <div className="space-y-2">
-                <Label htmlFor="birthday" className="text-gray-700">
+                <Label htmlFor="birthday" className="text-sm font-semibold">
                   Birthday
                 </Label>
                 <Input
@@ -307,17 +309,15 @@ export default function ProfilePage() {
                   name="birthday"
                   type="text"
                   value={formData.birthday || ""}
-                  onChange={handleInputChange}
-                  placeholder="MM-DD"
-                  className="border-gray-200"
-                  maxLength={5}
+                  disabled
+                  className="bg-muted"
                 />
-                <p className="text-xs text-gray-500">Format: MM-DD (e.g., 05-30)</p>
+                <p className="text-xs text-muted-foreground">Contact admin to change your birthday</p>
               </div>
 
               {/* Role (Read-only) */}
               <div className="space-y-2">
-                <Label htmlFor="role" className="text-gray-700">
+                <Label htmlFor="role" className="text-sm font-semibold">
                   Role
                 </Label>
                 <Input
@@ -325,17 +325,18 @@ export default function ProfilePage() {
                   type="text"
                   value={formData.role || ""}
                   disabled
-                  className="bg-gray-50 border-gray-200 cursor-not-allowed"
+                  className="bg-muted"
                 />
-                <p className="text-xs text-gray-500">Contact admin to change your role</p>
+                <p className="text-xs text-muted-foreground">Contact admin to change your role</p>
               </div>
 
               {/* Action Buttons */}
-              <div className="flex gap-3 pt-4">
+              <div className="flex gap-3 pt-4 border-t border-gray-200">
                 <Button
                   type="submit"
-                  disabled={isSaving || JSON.stringify(formData) === JSON.stringify(profile)}
+                  disabled={isSaving || formData.name === profile.name}
                   className="flex-1"
+                  size="lg"
                 >
                   {isSaving ? (
                     <>
@@ -352,6 +353,7 @@ export default function ProfilePage() {
                   onClick={handleCancel}
                   disabled={isSaving}
                   className="flex-1"
+                  size="lg"
                 >
                   Cancel
                 </Button>
@@ -362,25 +364,27 @@ export default function ProfilePage() {
       )}
 
       {/* Change Password */}
-      <Card className="shadow-xl border border-gray-200/80">
-        <CardHeader>
-          <CardTitle>Change Password</CardTitle>
+      <Card className="border-2 border-gray-200 shadow-sm">
+        <CardHeader className="border-b border-gray-200 bg-gray-50">
+          <CardTitle className="text-xl">Change Password</CardTitle>
+          <p className="text-sm text-muted-foreground mt-1">Update your account password</p>
         </CardHeader>
-        <CardContent>
-          <form onSubmit={handleChangePassword} className="space-y-4">
+        <CardContent className="pt-6">
+          <form onSubmit={handleChangePassword} className="space-y-5">
             <div className="space-y-2">
-              <Label htmlFor="current-password">Current password</Label>
+              <Label htmlFor="current-password" className="text-sm font-semibold">Current password</Label>
               <Input
                 id="current-password"
                 type="password"
                 placeholder="Enter current password"
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
+                disabled={isChangingPassword}
               />
             </div>
 
-            <div className="space-y-2 relative">
-              <Label htmlFor="new-password">New password</Label>
+            <div className="space-y-2">
+              <Label htmlFor="new-password" className="text-sm font-semibold">New password</Label>
               <div className="relative">
                 <Input
                   id="new-password"
@@ -388,31 +392,69 @@ export default function ProfilePage() {
                   placeholder="Enter new password"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
+                  disabled={isChangingPassword}
+                  className="pr-11"
                 />
                 <button
                   type="button"
                   aria-label={showPassword ? "Hide password" : "Show password"}
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-0 top-0 h-full px-3"
+                  className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
+                  disabled={isChangingPassword}
                 >
-                  {showPassword ? <EyeOff className="h-4 w-4 text-gray-600" /> : <Eye className="h-4 w-4 text-gray-600" />}
+                  {showPassword ? <EyeOff className="h-4 w-4 text-muted-foreground" /> : <Eye className="h-4 w-4 text-muted-foreground" />}
                 </button>
               </div>
 
-              <p className="text-xs text-gray-500">Password requirements: at least 8 characters and one special character. New password must differ from current password.</p>
-              <ul className="text-xs text-gray-500 list-disc pl-5">
-                <li className={newPassword.length >= 8 ? 'text-teal-700' : ''}>Minimum 8 characters</li>
-                <li className={/[^A-Za-z0-9]/.test(newPassword) ? 'text-teal-700' : ''}>At least one special character</li>
-                <li className={newPassword && currentPassword && newPassword !== currentPassword ? 'text-teal-700' : ''}>Must not match current password</li>
-              </ul>
-              {passwordError && <p className="text-sm text-red-600">{passwordError}</p>}
+              <div className="rounded-lg bg-muted p-3 space-y-2">
+                <p className="text-xs font-medium text-gray-700">Password requirements:</p>
+                <ul className="text-xs text-muted-foreground space-y-1">
+                  <li className={`flex items-center gap-2 ${newPassword.length >= 8 ? 'text-green-600 font-medium' : ''}`}>
+                    <div className={`w-1.5 h-1.5 rounded-full ${newPassword.length >= 8 ? 'bg-green-600' : 'bg-gray-300'}`} />
+                    Minimum 8 characters
+                  </li>
+                  <li className={`flex items-center gap-2 ${/[^A-Za-z0-9]/.test(newPassword) ? 'text-green-600 font-medium' : ''}`}>
+                    <div className={`w-1.5 h-1.5 rounded-full ${/[^A-Za-z0-9]/.test(newPassword) ? 'bg-green-600' : 'bg-gray-300'}`} />
+                    At least one special character
+                  </li>
+                  <li className={`flex items-center gap-2 ${newPassword && currentPassword && newPassword !== currentPassword ? 'text-green-600 font-medium' : ''}`}>
+                    <div className={`w-1.5 h-1.5 rounded-full ${newPassword && currentPassword && newPassword !== currentPassword ? 'bg-green-600' : 'bg-gray-300'}`} />
+                    Must not match current password
+                  </li>
+                </ul>
+              </div>
+
+              {passwordError && (
+                <Alert variant="destructive" className="border-2">
+                  <AlertDescription className="text-sm font-medium">{passwordError}</AlertDescription>
+                </Alert>
+              )}
             </div>
 
-            <div className="flex gap-3 pt-2">
-              <Button type="submit" className="flex-1" disabled={isChangingPassword || !passwordValid(newPassword) || !currentPassword}>
-                {isChangingPassword ? "Updating..." : "Update Password"}
+            <div className="flex gap-3 pt-4 border-t border-gray-200">
+              <Button 
+                type="submit" 
+                className="flex-1" 
+                size="lg"
+                disabled={isChangingPassword || !passwordValid(newPassword) || !currentPassword}
+              >
+                {isChangingPassword ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    Updating...
+                  </>
+                ) : (
+                  "Update Password"
+                )}
               </Button>
-              <Button type="button" variant="outline" className="flex-1" onClick={() => { setNewPassword(""); setCurrentPassword(""); }}>
+              <Button 
+                type="button" 
+                variant="outline" 
+                className="flex-1" 
+                size="lg"
+                onClick={() => { setNewPassword(""); setCurrentPassword(""); setPasswordError(""); }}
+                disabled={isChangingPassword}
+              >
                 Clear
               </Button>
             </div>
