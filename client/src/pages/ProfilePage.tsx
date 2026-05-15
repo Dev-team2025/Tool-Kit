@@ -20,6 +20,19 @@ interface EmployeeProfile {
   role: string;
 }
 
+const getErrorMessage = (error: unknown, fallback: string): string => {
+  if (
+    typeof error === "object" &&
+    error !== null &&
+    "message" in error &&
+    typeof (error as { message: unknown }).message === "string"
+  ) {
+    return (error as { message: string }).message;
+  }
+
+  return fallback;
+};
+
 export default function ProfilePage() {
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -58,8 +71,8 @@ export default function ProfilePage() {
         } else {
           setError("Profile not found");
         }
-      } catch (err: any) {
-        setError(err.message || "Failed to fetch profile");
+      } catch (err: unknown) {
+        setError(getErrorMessage(err, "Failed to fetch profile"));
       } finally {
         setIsLoading(false);
       }
@@ -114,8 +127,8 @@ export default function ProfilePage() {
         setProfile({ ...profile, name: formData.name });
       }
       setTimeout(() => setSuccess(""), 3000);
-    } catch (err: any) {
-      setError(err.message || "Failed to update profile");
+    } catch (err: unknown) {
+      setError(getErrorMessage(err, "Failed to update profile"));
     } finally {
       setIsSaving(false);
     }
@@ -191,8 +204,8 @@ export default function ProfilePage() {
       setTimeout(() => setSuccess(""), 3000);
       // Sign out to force re-login
       await supabase.auth.signOut();
-    } catch (err: any) {
-      setPasswordError(err.message || "Failed to change password");
+    } catch (err: unknown) {
+      setPasswordError(getErrorMessage(err, "Failed to change password"));
     } finally {
       setIsChangingPassword(false);
     }
