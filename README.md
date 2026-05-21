@@ -124,4 +124,4 @@ If CI fails with a Rollup native binary error on Linux, regenerate the lockfile 
 - Birthdays not showing: check RLS policy on `employees` and data format for `birthday`.
 - Password reset not working: ensure redirect URL is configured in Supabase Auth settings.
 
-  <!-- Pushing to main branch -->
+  <!-- Pushing to main branch -A trying to launch on vercel-->
