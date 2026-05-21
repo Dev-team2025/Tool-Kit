@@ -137,14 +137,16 @@ const UpcomingBirthdays = () => {
 
   if (loading) {
     return (
-      <div className="bg-white/80 rounded-2xl shadow-sm border border-gray-200/80 p-6">
-        <p className="text-gray-600 text-center">Loading birthdays...</p>
+      <div className="bg-white rounded-xl border-2 border-gray-200 p-6">
+        <div className="flex items-center justify-center py-8">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="bg-white/80 rounded-2xl shadow-sm border border-gray-200/80 p-6 relative overflow-hidden">
+    <div className="bg-white rounded-xl border-2 border-gray-200 p-6 relative overflow-hidden shadow-sm">
       {todaysBirthdays.length > 0 && (
         <div className="absolute inset-0 pointer-events-none">
           <div className="confetti-container">
@@ -169,73 +171,76 @@ const UpcomingBirthdays = () => {
         </div>
       )}
 
-      <div className="flex items-center mb-4 relative z-10">
-        <Cake className="w-6 h-6 text-rose-500 mr-2" />
-        <h2 className="text-xl font-display text-gray-900">
+      <div className="flex items-center gap-2 mb-5 relative z-10">
+        <Cake className="w-5 h-5 text-pink-500" />
+        <h2 className="text-lg font-display font-bold text-gray-900">
           Upcoming Birthdays
         </h2>
         {todaysBirthdays.length > 0 && (
-          <Sparkles className="w-5 h-5 text-amber-400 ml-2 animate-pulse" />
+          <Sparkles className="w-4 h-4 text-amber-400 animate-pulse" />
         )}
       </div>
 
       {upcomingBirthdays.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-gray-200 p-6 text-center text-sm text-gray-600">
-          No upcoming birthdays in the next 30 days.
+        <div className="rounded-lg border-2 border-dashed border-gray-200 p-8 text-center">
+          <Cake className="w-12 h-12 text-gray-300 mx-auto mb-3" />
+          <p className="text-sm text-muted-foreground">No upcoming birthdays in the next 30 days</p>
         </div>
       ) : (
         <div className="space-y-3 relative z-10">
           {upcomingBirthdays.map((employee, index) => (
             <div
               key={`${employee.name}-${employee.birthday}-${index}`}
-              className={`flex flex-col gap-3 rounded-xl border p-4 transition-all duration-300 sm:flex-row sm:items-center sm:justify-between ${
+              className={`flex items-center justify-between gap-4 rounded-lg border-2 p-4 transition-all duration-200 ${
                 employee.daysUntil === 0
-                  ? "bg-gradient-to-r from-amber-100 via-rose-100 to-orange-100 border-amber-200 shadow-lg"
-                  : "bg-white border-gray-200"
+                  ? "bg-gradient-to-r from-pink-50 to-amber-50 border-pink-200 shadow-md"
+                  : "bg-gray-50 border-gray-200 hover:border-gray-300"
               }`}
             >
-              <div className="flex items-center">
+              <div className="flex items-center gap-3 flex-1 min-w-0">
                 <div
-                  className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold text-sm mr-3 ${
+                  className={`w-11 h-11 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0 ${
                     employee.daysUntil === 0
-                      ? "bg-gradient-to-br from-yellow-500 to-pink-500 animate-bounce"
-                      : "bg-gradient-to-br from-pink-500 to-purple-500"
+                      ? "bg-gradient-to-br from-pink-500 to-amber-500 animate-bounce shadow-lg"
+                      : "bg-gradient-to-br from-primary to-primary/80 shadow-md"
                   }`}
                 >
                   {employee.daysUntil === 0
                     ? "🎂"
                     : employee.avatar || employee.name[0]}
                 </div>
-                <div>
-                  <div
-                    className={`font-medium ${
-                      employee.daysUntil === 0
-                        ? "text-pink-800 text-lg"
-                        : "text-gray-800"
-                    }`}
-                  >
-                    {employee.name}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2">
+                    <p
+                      className={`font-semibold truncate ${
+                        employee.daysUntil === 0
+                          ? "text-pink-900"
+                          : "text-gray-900"
+                      }`}
+                    >
+                      {employee.name}
+                    </p>
                     {employee.daysUntil === 0 && (
-                      <span className="ml-2 text-sm animate-bounce">🎉</span>
+                      <span className="text-sm animate-bounce">🎉</span>
                     )}
                   </div>
-                  <div className="text-sm text-gray-600">
+                  <p className="text-xs text-muted-foreground">
                     {employee.department}
-                  </div>
+                  </p>
                   {employee.daysUntil === 0 && (
-                    <div className="text-sm font-medium text-pink-700 animate-pulse flex items-center mt-1">
-                      <Gift className="w-3 h-3 mr-1" />
-                      Happy Birthday! 🎊
+                    <div className="flex items-center gap-1 mt-1">
+                      <Gift className="w-3 h-3 text-pink-600" />
+                      <span className="text-xs font-medium text-pink-600">Happy Birthday! 🎊</span>
                     </div>
                   )}
                 </div>
               </div>
-              <div className="text-right">
-                <div className="flex items-center justify-end text-pink-600 font-medium">
-                  <Calendar className="w-4 h-4 mr-1" />
+              <div className="text-right flex-shrink-0">
+                <div className="flex items-center gap-1.5 text-pink-600 font-semibold text-sm">
+                  <Calendar className="w-4 h-4" />
                   {employee.daysUntil === 0 && (
-                    <span className="text-pink-700 font-bold text-lg animate-pulse">
-                      Today! 🎉
+                    <span className="text-pink-700 font-bold">
+                      Today!
                     </span>
                   )}
                   {employee.daysUntil === 1 && <span>Tomorrow</span>}
@@ -243,12 +248,12 @@ const UpcomingBirthdays = () => {
                     <span>{employee.daysUntil} days</span>
                   )}
                 </div>
-                <div className="text-xs text-gray-500">
+                <p className="text-xs text-muted-foreground mt-1">
                   {employee.date.toLocaleDateString("en-US", {
                     month: "short",
                     day: "numeric"
                   })}
-                </div>
+                </p>
               </div>
             </div>
           ))}

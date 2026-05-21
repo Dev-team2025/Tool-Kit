@@ -8,7 +8,7 @@ const learningTools = [
     description: 'Request new training programs or resources to enhance your professional skills.',
     url: '#',
     category: 'Skill Development',
-    color: 'bg-teal-500',
+    color: 'bg-primary',
     icon: Brain
   },
   {
@@ -23,19 +23,17 @@ const learningTools = [
 
 const LearningDevelopment = () => {
   return (
-    <div className="max-w-7xl mx-auto space-y-8">
-      <section className="rounded-3xl border border-emerald-100/80 bg-white/80 p-8 shadow-sm">
-        <h2 className="text-3xl font-display text-gray-900">Learning & Development</h2>
-        <p className="mt-2 text-sm text-gray-600">
-          Build new skills, access training, and track your growth journey.
-        </p>
-      </section>
+    <div className="max-w-7xl mx-auto space-y-6">
+      <div className="mb-6">
+        <h2 className="text-xl font-display font-bold text-gray-900">Learning & Development Tools</h2>
+        <p className="text-sm text-muted-foreground mt-1">Build new skills, access training, and track your growth journey</p>
+      </div>
 
-      <section className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {learningTools.map((tool, index) => (
           <ToolCard key={index} {...tool} />
         ))}
-      </section>
+      </div>
     </div>
   );
 };

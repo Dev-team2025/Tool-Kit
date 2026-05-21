@@ -9,7 +9,7 @@ const technicalTools = [
     description: 'Get a real-time snapshot of all ongoing projects, progress, and key metrics.',
     url: '#',
     category: 'Project Overview',
-    color: 'bg-sky-500',
+    color: 'bg-blue-500',
     icon: BarChart
   },
   {
@@ -17,7 +17,7 @@ const technicalTools = [
     description: 'Access and manage all project codebases, documentation, and technical assets.',
     url: '#',
     category: 'Codebase Explorer',
-    color: 'bg-emerald-500',
+    color: 'bg-green-600',
     icon: Monitor
   },
   {
@@ -33,26 +33,24 @@ const technicalTools = [
     description: 'Quick access to the official DLithe website for information and resources.',
     url: '#',
     category: 'DLithe Web Portal',
-    color: 'bg-teal-500',
+    color: 'bg-primary',
     icon: Globe
   }
 ];
 
 const Technical = () => {
   return (
-    <div className="max-w-7xl mx-auto space-y-8">
-      <section className="rounded-3xl border border-sky-100/80 bg-white/80 p-8 shadow-sm">
-        <h2 className="text-3xl font-display text-gray-900">Technical Hub</h2>
-        <p className="mt-2 text-sm text-gray-600">
-          Engineering resources, infrastructure tools, and developer utilities.
-        </p>
-      </section>
+    <div className="max-w-7xl mx-auto space-y-6">
+      <div className="mb-6">
+        <h2 className="text-xl font-display font-bold text-gray-900">Technical Hub Tools</h2>
+        <p className="text-sm text-muted-foreground mt-1">Engineering resources, infrastructure tools, and developer utilities</p>
+      </div>
 
-      <section className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {technicalTools.map((tool, index) => (
           <ToolCard key={index} {...tool} />
         ))}
-      </section>
+      </div>
     </div>
   );
 };

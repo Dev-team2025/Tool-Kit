@@ -6,9 +6,9 @@ const hrTools = [
   {
     name: 'Employee Profile',
     description: 'View and manage personal employee details, contact information, and HR records.',
-    url: '#',
+    url: '/profile',
     category: 'My Profile',
-    color: 'bg-slate-500',
+    color: 'bg-gray-600',
     icon: User
   },
   {
@@ -16,7 +16,7 @@ const hrTools = [
     description: 'Mark daily attendance and review your work presence records.',
     url: '#',
     category: 'Attendance Log',
-    color: 'bg-teal-500',
+    color: 'bg-primary',
     icon: Clock
   },
   {
@@ -32,7 +32,7 @@ const hrTools = [
     description: 'Apply for and track your leave requests, and view your leave balances.',
     url: '#',
     category: 'Leave Requests',
-    color: 'bg-emerald-500',
+    color: 'bg-green-600',
     icon: Plane
   },
   {
@@ -40,7 +40,7 @@ const hrTools = [
     description: 'Stay updated on upcoming company events, holidays, and celebrations.',
     url: '#',
     category: 'Company Events',
-    color: 'bg-rose-500',
+    color: 'bg-pink-500',
     icon: CalendarDays
   },
   {
@@ -48,26 +48,24 @@ const hrTools = [
     description: 'Generate and download official certifications for completed training and achievements.',
     url: 'http://143.110.185.65:8501',
     category: 'Certificates',
-    color: 'bg-sky-500',
+    color: 'bg-blue-500',
     icon: Medal
   }
 ];
 
 const HumanResources = () => {
   return (
-    <div className="max-w-7xl mx-auto space-y-8">
-      <section className="rounded-3xl border border-slate-100/80 bg-white/80 p-8 shadow-sm">
-        <h2 className="text-3xl font-display text-gray-900">Human Resources</h2>
-        <p className="mt-2 text-sm text-gray-600">
-          Manage people operations, payroll, and employee success in one place.
-        </p>
-      </section>
+    <div className="max-w-7xl mx-auto space-y-6">
+      <div className="mb-6">
+        <h2 className="text-xl font-display font-bold text-gray-900">Human Resources Tools</h2>
+        <p className="text-sm text-muted-foreground mt-1">Manage people operations, payroll, and employee success</p>
+      </div>
 
-      <section className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {hrTools.map((tool, index) => (
           <ToolCard key={index} {...tool} />
         ))}
-      </section>
+      </div>
     </div>
   );
 };

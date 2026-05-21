@@ -4,6 +4,10 @@ This file maintains an up-to-date list of project files and structure.
 
 ## File Structure
 
+- 📁 `.github/`
+  - 📁 `.github\workflows/`
+    - 📄 `.github\workflows\ci.yml` (Unknown)
+    - 📄 `.github\workflows\codeql.yml` (Unknown)
 - 📁 `.vscode/`
   - 📄 `.vscode\project-structure.md` (Markdown)
 - 📁 `client/`
@@ -164,15 +168,15 @@ This file maintains an up-to-date list of project files and structure.
       - 📄 `client\src\components\DailyQuote.tsx` (React TypeScript)
         - *Imports:* `react`, `lucide-react`
       - 📄 `client\src\components\Layout.tsx` (React TypeScript)
-        - *Imports:* `react-router-dom`, `lucide-react`, `./Sidebar`, `@/contexts/AuthContext`
+        - *Imports:* `react-router-dom`, `./Sidebar`, `@/contexts/AuthContext`
       - 📄 `client\src\components\ProtectedRoute.tsx` (React TypeScript)
         - *Imports:* `react-router-dom`, `@/contexts/AuthContext`
         - *Exports:* `ProtectedRoute`
       - 📄 `client\src\components\Sidebar.tsx` (React TypeScript)
-        - *Imports:* `react`, `react-router-dom`, `lucide-react`, `@/contexts/AuthContext`
-        - *Routes Provided:* `GET /`, `GET /sales-marketing`, `GET /hr`, `GET /learning`, `GET /technical`, `GET #`, `GET #`, `GET #`, `GET #`, `GET #`, `GET #`
+        - *Imports:* `react`, `react-router-dom`, `lucide-react`, `@/contexts/AuthContext`, `@/components/ui/button`
+        - *Routes Provided:* `GET /`, `GET /profile`, `GET /sales-marketing`, `GET /hr`, `GET /learning`, `GET /technical`, `GET #`, `GET #`, `GET #`, `GET #`, `GET #`, `GET #`
       - 📄 `client\src\components\ToolCard.tsx` (React TypeScript)
-        - *Imports:* `lucide-react`
+        - *Imports:* `lucide-react`, `react-router-dom`
       - 📄 `client\src\components\UpcomingBirthdays.tsx` (React TypeScript)
         - *Imports:* `react`, `lucide-react`, `@/lib/supabaseClient`
     - 📁 `client\src\contexts/`
@@ -196,7 +200,7 @@ This file maintains an up-to-date list of project files and structure.
         - *Imports:* `../components/DailyQuote`, `../components/ToolCard`, `../components/UpcomingBirthdays`, `lucide-react`
         - *Routes Provided:* `GET /Dashboard`
       - 📄 `client\src\pages\ForgotPasswordPage.tsx` (React TypeScript)
-        - *Imports:* `react`, `@/components/ui/button`, `@/components/ui/input`, `@/components/ui/card`, `react-router-dom`, `@/lib/supabaseClient`, `@/components/ui/label`
+        - *Imports:* `react`, `@/components/ui/button`, `@/components/ui/input`, `@/components/ui/card`, `@/components/ui/alert`, `react-router-dom`, `@/lib/supabaseClient`, `@/components/ui/label`, `lucide-react`
         - *Exports:* `ForgotPasswordPage`
         - *Routes Provided:* `GET /ForgotPasswordPage`
       - 📄 `client\src\pages\HumanResources.tsx` (React TypeScript)
@@ -209,14 +213,18 @@ This file maintains an up-to-date list of project files and structure.
         - *Imports:* `../components/ToolCard`, `lucide-react`
         - *Routes Provided:* `GET /LearningDevelopment`
       - 📄 `client\src\pages\LoginPage.tsx` (React TypeScript)
-        - *Imports:* `react`, `react-router-dom`, `framer-motion`, `@/components/ui/button`, `@/components/ui/input`, `@/components/ui/card`, `@/components/ui/label`, `@/components/ui/alert`, `lucide-react`, `@/contexts/AuthContext`, `@/hooks/use-toast`
+        - *Imports:* `react`, `react-router-dom`, `framer-motion`, `@/components/ui/button`, `@/components/ui/input`, `@/components/ui/label`, `@/components/ui/alert`, `lucide-react`, `@/contexts/AuthContext`, `@/hooks/use-toast`
         - *Exports:* `LoginPage`
         - *Routes Provided:* `GET /LoginPage`
       - 📄 `client\src\pages\NotFound.tsx` (React TypeScript)
         - *Imports:* `react-router-dom`, `react`
         - *Routes Provided:* `GET /NotFound`
+      - 📄 `client\src\pages\ProfilePage.tsx` (React TypeScript)
+        - *Imports:* `react`, `react-router-dom`, `@/components/ui/button`, `@/components/ui/input`, `@/components/ui/card`, `@/components/ui/label`, `@/components/ui/alert`, `@/contexts/AuthContext`, `@/lib/supabaseClient`, `lucide-react`, `@/hooks/use-toast`
+        - *Exports:* `ProfilePage`
+        - *Routes Provided:* `GET /ProfilePage`
       - 📄 `client\src\pages\ResetPasswordPage.tsx` (React TypeScript)
-        - *Imports:* `react-router-dom`, `react`, `@/components/ui/button`, `@/components/ui/input`, `@/components/ui/card`, `@/lib/supabaseClient`, `@/components/ui/label`
+        - *Imports:* `react-router-dom`, `react`, `@/components/ui/button`, `@/components/ui/input`, `@/components/ui/card`, `@/components/ui/alert`, `@/lib/supabaseClient`, `@/components/ui/label`, `lucide-react`, `@/hooks/use-toast`
         - *Exports:* `ResetPasswordPage`
         - *Routes Provided:* `GET /ResetPasswordPage`
       - 📄 `client\src\pages\SalesMarketing.tsx` (React TypeScript)
@@ -230,11 +238,11 @@ This file maintains an up-to-date list of project files and structure.
         - *Exports:* `VerifyCodePage`
         - *Routes Provided:* `GET /VerifyCodePage`
     - 📄 `client\src\App.css` (CSS)
-    - 📄 `client\src\App.test.js` (JavaScript)
+    - 📄 `client\src\App.test.tsx` (React TypeScript)
       - *Imports:* `@testing-library/react`, `./App`
     - 📄 `client\src\App.tsx` (React TypeScript)
-      - *Imports:* `./components/ui/toaster`, `./components/ui/sonner`, `./components/ui/tooltip`, `@tanstack/react-query`, `react-router-dom`, `./components/Layout`, `./components/ProtectedRoute`, `./pages/Dashboard`, `./pages/SalesMarketing`, `./pages/HumanResources`, `./pages/LearningDevelopment`, `./pages/Technical`, `./pages/LoginPage`, `./pages/NotFound`, `./pages/ForgotPasswordPage`, `./pages/VerifyCodePage`, `./pages/ResetPasswordPage`
-      - *Routes Provided:* `GET /login`, `GET /forgot-password`, `GET /verify-code`, `GET /reset-password`, `GET /`, `GET sales-marketing`, `GET hr`, `GET learning`, `GET technical`, `GET *`
+      - *Imports:* `./components/ui/toaster`, `./components/ui/sonner`, `./components/ui/tooltip`, `@tanstack/react-query`, `react-router-dom`, `./components/Layout`, `./components/ProtectedRoute`, `./pages/Dashboard`, `./pages/SalesMarketing`, `./pages/HumanResources`, `./pages/LearningDevelopment`, `./pages/Technical`, `./pages/LoginPage`, `./pages/NotFound`, `./pages/ProfilePage`, `./pages/ForgotPasswordPage`, `./pages/VerifyCodePage`, `./pages/ResetPasswordPage`
+      - *Routes Provided:* `GET /login`, `GET /forgot-password`, `GET /verify-code`, `GET /reset-password`, `GET /`, `GET profile`, `GET sales-marketing`, `GET hr`, `GET learning`, `GET technical`, `GET *`
     - 📄 `client\src\index.css` (CSS)
     - 📄 `client\src\index.tsx` (React TypeScript)
       - *Imports:* `react`, `react-dom/client`, `./App`, `./index.css`, `./contexts/AuthContext`
@@ -254,9 +262,8 @@ This file maintains an up-to-date list of project files and structure.
   - 📄 `client\package-lock.json` (JSON)
   - 📄 `client\package.json` (JSON)
   - 📄 `client\postcss.config.js` (JavaScript)
-  - 📄 `client\README.md` (Markdown)
   - 📄 `client\tailwind.config.ts` (TypeScript)
-    - *Imports:* `tailwindcss`
+    - *Imports:* `tailwindcss-animate`, `tailwindcss`
   - 📄 `client\tsconfig.app.json` (JSON)
   - 📄 `client\tsconfig.json` (JSON)
   - 📄 `client\tsconfig.node.json` (JSON)
@@ -266,4 +273,4 @@ This file maintains an up-to-date list of project files and structure.
 - 📄 `README.md` (Markdown)
 
 ---
-Last updated: 2026-05-14T04:27:08.977Z
+Last updated: 2026-05-21T09:48:21.271Z
