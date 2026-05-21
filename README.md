@@ -123,3 +123,5 @@ If CI fails with a Rollup native binary error on Linux, regenerate the lockfile 
 - "Invalid API key": check `VITE_SUPABASE_ANON_KEY` and restart Vite.
 - Birthdays not showing: check RLS policy on `employees` and data format for `birthday`.
 - Password reset not working: ensure redirect URL is configured in Supabase Auth settings.
+
+  <!-- Pushing to main branch -->
